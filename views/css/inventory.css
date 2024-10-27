@@ -1,0 +1,75 @@
+/* inventory.css */
+
+body {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    margin: 0;
+  }
+  
+  .navbar {
+    width: 200px;
+    height: 100vh;
+    background: linear-gradient(180deg, #164A41 0%, #326148 50%, #9DC88D 100%);
+    padding: 20px;
+    color: white;
+  }
+  
+  .navbar-logo {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .navbar-menu ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .navbar-menu ul li {
+    margin: 15px 0;
+    text-align: center;
+  }
+  
+  .navbar-menu ul li a {
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+  }
+  
+  .navbar-menu ul li a:hover {
+    color: #9DC88D;
+  }
+  
+  .inventory-container {
+    padding: 40px;
+    width: 100%;
+  }
+  
+  .inventory-container h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #164A41;
+    margin-bottom: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  table th, table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  table th {
+    font-weight: 700;
+    color: #164A41;
+  }
+  
+  table td {
+    color: #326148;
+  }
+  

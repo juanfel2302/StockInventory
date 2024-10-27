@@ -1,30 +1,48 @@
 const express = require('express');
-const mysql = require('mysql2');
-
+const path = require('path');
+const session = require('express-session');
+const connection = require('./config/db');
+const productRoutes = require('./routes/productRoutes');
+const authRoutes = require('./routes/authRoutes');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-// Configuración de la conexión a la base de datos
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Admin', // Reemplaza con tu contraseña
-  database: 'TiendaDB' // Reemplaza con el nombre de tu base de datos
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Verificar la conexión
-connection.connect((err) => {
-  if (err) {
-    console.error('Error al conectarse a la base de datos:', err.stack);
-    return;
-  }
-  console.log('Conexión a la base de datos establecida con éxito.');
-});
+app.use(session({
+  secret: 'clave_secreta',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }
+}));
 
-// Ruta de ejemplo
+app.use(express.static(path.join(__dirname, 'views')));
+
 app.get('/', (req, res) => {
-  res.send('Servidor Express funcionando correctamente');
+  res.sendFile(path.join(__dirname, 'views', 'login.html'));
 });
+
+app.get('/inventory', (req, res) => {
+  if (req.session && req.session.userId) {
+    res.sendFile(path.join(__dirname, 'views', 'inventory.html'));
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.get('/home', (req, res) => {
+  console.log('Session User ID:', req.session.userId); // Verifica el ID de usuario en la sesión
+  if (req.session && req.session.userId) {
+    res.sendFile(path.join(__dirname, 'views', 'home.html'));
+  } else {
+    res.redirect('/');
+  }
+});
+
+
+app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);

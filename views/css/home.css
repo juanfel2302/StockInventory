@@ -1,0 +1,27 @@
+/* home.css */
+
+body {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+  }
+  
+  .navbar {
+    width: 200px;
+    height: 100vh;
+  }
+  
+  .home-container {
+    padding: 40px;
+  }
+  
+  .home-container h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #164A41;
+  }
+  
+  .home-container p {
+    font-size: 18px;
+    color: #326148;
+  }
+  

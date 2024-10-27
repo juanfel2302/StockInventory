@@ -1,4 +1,4 @@
-const connection = require('../db');
+const connection = require('../config/db');
 
 
 //Constructor de la clase user
@@ -48,6 +48,29 @@ class User {
       });
     });
   }
+  static findByUsername(nombre_usuario) {
+    return new Promise((resolve, reject) => {
+      const query = 'SELECT * FROM usuarios WHERE nombre_usuario = ?';
+
+      connection.query(query, [nombre_usuario], (err, result) => {
+        if (err) {
+          reject(err);
+        } else if (result.length > 0) {
+          const user = new User(
+            result[0].id_usuario,
+            result[0].nombre_usuario,
+            result[0].contrasena,
+            result[0].es_administrador,
+            result[0].estado
+          );
+          resolve(user);
+        } else {
+          resolve(null); // Usuario no encontrado
+        }
+      });
+    });
+  }
+
 
   static deleteUserById(id_usuario){
     return new Promise((resolve, reject) => {
