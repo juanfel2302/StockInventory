@@ -15,11 +15,11 @@
     </div>
     <div class="navbar-menu">
       <ul>
-        <li><a href="#home">🏠</a></li>
-        <li><a href="#inventory">📦</a></li>
-        <li><a href="#suppliers">🚚</a></li>
-        <li><a href="#users">👥</a></li>
-        <li><a href="#settings">⚙️</a></li>
+        <li><a href="/home">🏠</a></li>
+        <li><a href="/inventory">📦</a></li>
+        <li><a href="/provider">🚚</a></li>
+        <li><a href="/users">👥</a></li>
+        <li><a href="/settings">⚙️</a></li>
       </ul>
     </div>
   </div>
@@ -60,6 +60,10 @@
     <form id="addProductForm" class="form-container">
       <label for="productName">Nombre:</label>
       <input type="text" id="productName" name="nombre" required>
+
+      <label for="productBarcode">Código de Barras:</label>
+      <input type="text" id="productBarcode" name="codigo_barras" required>
+
 
       <label for="productPrice">Precio:</label>
       <input type="number" step="0.01" id="productPrice" name="precio" required>

@@ -1,83 +1,113 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Proveedores</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/provider.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proveedores</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/provider.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <!-- Navbar -->
-  <div class="navbar">
-    <div class="navbar-logo">
-      <h2>Stock Inventory</h2>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-logo">
+            <h2>Stock Inventory</h2>
+        </div>
+        <div class="navbar-menu">
+            <ul>
+                <li><a href="#home">🏠</a></li>
+                <li><a href="#inventory">📦</a></li>
+                <li><a href="#provider">🚚</a></li>
+                <li><a href="#users">👥</a></li>
+                <li><a href="#settings">⚙️</a></li>
+            </ul>
+        </div>
     </div>
-    <div class="navbar-menu">
-      <ul>
-        <li><a href="#home">🏠</a></li>
-        <li><a href="#inventory">📦</a></li>
-        <li><a href="#provider">🚚</a></li>
-        <li><a href="#users">👥</a></li>
-        <li><a href="#settings">⚙️</a></li>
-      </ul>
+
+    <!-- Contenedor de Proveedores -->
+    <div class="provider-container">
+        <h2>Proveedores</h2>
+        
+        <!-- Botón Agregar -->
+        <div class="add-button-container">
+            <button id="addProviderButton" class="add-button">Agregar Proveedor +</button>
+        </div>
+        
+        <!-- Tabla de Proveedores -->
+        <div class="table-responsive">
+            <table class="provider-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="providerTable">
+                    <!-- Proveedores se cargarán aquí mediante JavaScript -->
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
 
-  <!-- Contenedor de Proveedores -->
-  <div class="provider-container">
-    <h2>Proveedores</h2>
-    
-    <!-- Botón Agregar -->
-    <div class="add-button-container">
-      <button id="addProviderButton" class="add-button">Agregar Proveedor +</button>
+    <!-- Modal para Agregar Proveedor -->
+    <div id="addProviderModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeAddModal">&times;</span>
+            <h2>Agregar Proveedor</h2>
+            <form id="addProviderForm" class="form-container">
+                <label for="providerName">Nombre:</label>
+                <input type="text" id="providerName" name="nombre" required>
+
+                <label for="providerPhone">Teléfono:</label>
+                <input type="text" id="providerPhone" name="telefono" required>
+
+                <label for="providerEmail">Email:</label>
+                <input type="email" id="providerEmail" name="email" required>
+
+                <label for="providerStatus">Estado:</label>
+                <select id="providerStatus" name="estado" required>
+                    <option value="1">Activo</option>
+                    <option value="0">Inactivo</option>
+                </select>
+
+                <button type="submit" class="submit-button">Guardar</button>
+            </form>
+        </div>
     </div>
-    
-    <!-- Tabla de Proveedores -->
-    <div class="table-responsive">
-      <table class="provider-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Teléfono</th>
-            <th>Email</th>
-            <th>Estado</th>
-          </tr>
-        </thead>
-        <tbody id="providerTable">
-          <!-- Proveedores se cargarán aquí mediante JavaScript -->
-        </tbody>
-      </table>
+
+    <!-- Modal para Editar Proveedor -->
+    <div id="editProviderModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeEditModal">&times;</span>
+            <h2>Editar Proveedor</h2>
+            <form id="editProviderForm" class="form-container">
+                <input type="hidden" id="editProviderId" name="id_proveedor">
+                
+                <label for="editProviderName">Nombre:</label>
+                <input type="text" id="editProviderName" name="nombre" required>
+
+                <label for="editProviderPhone">Teléfono:</label>
+                <input type="text" id="editProviderPhone" name="telefono" required>
+
+                <label for="editProviderEmail">Email:</label>
+                <input type="email" id="editProviderEmail" name="email" required>
+
+                <label for="editProviderStatus">Estado:</label>
+                <select id="editProviderStatus" name="estado" required>
+                    <option value="1">Activo</option>
+                    <option value="0">Inactivo</option>
+                </select>
+
+                <button type="submit" class="submit-button">Actualizar</button>
+            </form>
+        </div>
     </div>
-  </div>
 
-  <!-- Modal para Agregar Proveedor -->
-  <div id="addProviderModal" class="modal">
-    <div class="modal-content">
-      <span class="close-button" id="closeModal">&times;</span>
-      <h2>Agregar Proveedor</h2>
-      <form id="addProviderForm" class="form-container">
-        <label for="providerName">Nombre:</label>
-        <input type="text" id="providerName" name="nombre" required>
-
-        <label for="providerPhone">Teléfono:</label>
-        <input type="text" id="providerPhone" name="telefono" required>
-
-        <label for="providerEmail">Email:</label>
-        <input type="email" id="providerEmail" name="email" required>
-
-        <label for="providerStatus">Estado:</label>
-        <select id="providerStatus" name="estado" required>
-          <option value="1">Activo</option>
-          <option value="0">Inactivo</option>
-        </select>
-
-        <button type="submit" class="submit-button">Guardar</button>
-      </form>
-    </div>
-  </div>
-
-  <script src="js/provider.js"></script>
+    <script src="js/provider.js"></script>
 </body>
 </html>

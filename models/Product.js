@@ -37,13 +37,14 @@ class Product {
                 INSERT INTO productos (nombre, codigo_barras, id_categoria, precio, fecha_caducidad, stock, stock_minimo, id_estado_producto, id_proveedor)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             `;
-            const { nombre, codigo_barras, categoria, precio, fecha_caducidad, stock, stock_minimo, estado, proveedor } = data;
-            connection.query(query, [nombre, codigo_barras, categoria, precio, fecha_caducidad, stock, stock_minimo, estado, proveedor], (err, result) => {
+            const { nombre, codigo_barras, id_categoria, precio, fecha_caducidad, stock, stock_minimo, id_estado_producto, id_proveedor } = data; // Ajusta los nombres
+            connection.query(query, [nombre, codigo_barras, id_categoria, precio, fecha_caducidad, stock, stock_minimo, id_estado_producto, id_proveedor], (err, result) => {
                 if (err) reject(err);
                 else resolve(result);
             });
         });
     }
+    
 }
 
 module.exports = Product;

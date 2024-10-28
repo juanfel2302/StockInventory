@@ -9,9 +9,11 @@ exports.getAllProducts = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch products' });
   }
 };
+
 exports.createProduct = async (req, res) => {
   try {
     const productData = req.body;
+    console.log("Datos recibidos en el backend:", productData); // Verifica los datos en el backend
     const result = await Product.create(productData);
     res.status(201).json({ message: 'Producto agregado exitosamente', productId: result.insertId });
   } catch (error) {
