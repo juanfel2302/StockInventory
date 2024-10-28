@@ -1,10 +1,10 @@
-// models/Category.js
+// models/Provider.js
 const connection = require('../config/db');
 
-class Category {
+class Provider {
   static getAll() {
     return new Promise((resolve, reject) => {
-      const query = 'SELECT * FROM categorias';
+      const query = 'SELECT * FROM proveedores';
       connection.query(query, (err, results) => {
         if (err) return reject(err);
         resolve(results);
@@ -13,4 +13,4 @@ class Category {
   }
 }
 
-module.exports = Category;
+module.exports = Provider;

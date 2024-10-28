@@ -9,3 +9,12 @@ exports.getAllProducts = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch products' });
   }
 };
+exports.createProduct = async (req, res) => {
+  try {
+    const productData = req.body;
+    const result = await Product.create(productData);
+    res.status(201).json({ message: 'Producto agregado exitosamente', productId: result.insertId });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to add product' });
+  }
+};

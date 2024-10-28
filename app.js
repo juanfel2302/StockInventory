@@ -2,8 +2,16 @@ const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const connection = require('./config/db');
-const productRoutes = require('./routes/productRoutes');
 const authRoutes = require('./routes/authRoutes');
+const productRoutes = require('./routes/productRoutes');
+const categoryRoutes = require('./routes/categoryRoutes'); // Asegúrate de que la ruta sea correcta
+const stateRoutes = require('./routes/stateRoutes');
+const providerRoutes = require('./routes/providerRoutes');
+
+
+console.log({ authRoutes, productRoutes, categoryRoutes, stateRoutes, providerRoutes });
+
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -40,9 +48,22 @@ app.get('/home', (req, res) => {
   }
 });
 
-
+// Rutas
+console.log("Adding routes: /api/auth", authRoutes);
 app.use('/api/auth', authRoutes);
+
+console.log("Adding routes: /api/products", productRoutes);
 app.use('/api/products', productRoutes);
+
+console.log("Adding routes: /api/categories", categoryRoutes);
+app.use('/api/categories', categoryRoutes);
+
+console.log("Adding routes: /api/states", stateRoutes);
+app.use('/api/states', stateRoutes);
+
+console.log("Adding routes: /api/providers", providerRoutes);
+app.use('/api/providers', providerRoutes);
+
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
