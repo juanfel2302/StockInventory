@@ -54,7 +54,8 @@ document.addEventListener("DOMContentLoaded", async function() {
         
         const formData = new FormData(addProductForm);
         const data = Object.fromEntries(formData.entries());
-        
+        console.log(data); // Verifica que los datos tengan los valores correctos
+
         try {
             const response = await fetch("/api/products", {
                 method: "POST",
