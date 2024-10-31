@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/users.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-logo">
+            <h2>Stock Inventory</h2>
+        </div>
+        <div class="navbar-menu">
+            <ul>
+                <li><a href="/home"><i class="fas fa-home"></i></a></li>
+                <li><a href="/inventory"><i class="fas fa-box"></i></a></li>
+                <li><a href="/provider"><i class="fas fa-truck"></i></a></li>
+                <li><a href="/users"><i class="fas fa-users"></i></a></li>
+                <li><a href="/settings"><i class="fas fa-cog"></i></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Contenedor de Usuarios -->
+    <div class="user-container">
+        <h2>Usuarios</h2>
+        
+        <!-- Botón Agregar -->
+        <div class="add-button-container">
+            <button id="addUserButton" class="add-button">Agregar Usuario +</button>
+        </div>
+        
+        <!-- Tabla de Usuarios -->
+        <div class="table-responsive">
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre de Usuario</th>
+                        <th>Contraseña</th>
+                        <th>Es Administrador</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="userTable">
+                    <!-- Usuarios se cargarán aquí mediante JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar Usuario -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeAddModal">&times;</span>
+            <h2>Agregar Usuario</h2>
+            <form id="addUserForm" class="form-container">
+                <label for="userName">Nombre de Usuario:</label>
+                <input type="text" id="userName" name="nombre_usuario" required>
+
+                <label for="userPassword">Contraseña:</label>
+                <input type="password" id="userPassword" name="contrasena" required>
+
+                <label for="userAdmin">Es Administrador:</label>
+                <select id="userAdmin" name="es_administrador" required>
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+
+                <label for="userStatus">Estado:</label>
+                <select id="userStatus" name="estado" required>
+                    <option value="1">Activo</option>
+                    <option value="0">Inactivo</option>
+                </select>
+
+                <button type="submit" class="submit-button">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Editar Usuario -->
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeEditModal">&times;</span>
+            <h2>Editar Usuario</h2>
+            <form id="editUserForm" class="form-container">
+                <input type="hidden" id="editUserId" name="id_usuario">
+                
+                <label for="editUserName">Nombre de Usuario:</label>
+                <input type="text" id="editUserName" name="nombre_usuario" required>
+
+                <label for="editUserPassword">Contraseña:</label>
+                <input type="password" id="editUserPassword" name="contrasena" required>
+
+                <label for="editUserAdmin">Es Administrador:</label>
+                <select id="editUserAdmin" name="es_administrador" required>
+                    <option value="1">Sí</option>
+                    <option value="0">No</option>
+                </select>
+
+                <label for="editUserStatus">Estado:</label>
+                <select id="editUserStatus" name="estado" required>
+                    <option value="1">Activo</option>
+                    <option value="0">Inactivo</option>
+                </select>
+
+                <button type="submit" class="submit-button">Actualizar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/user.js"></script>
+</body>
+</html>
