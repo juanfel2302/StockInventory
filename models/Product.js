@@ -44,7 +44,53 @@ class Product {
             });
         });
     }
+
+    //filtrado
+    static filter({ category, provider, status }) {
+        return new Promise((resolve, reject) => {
+            let query = `
+                SELECT 
+                    p.nombre, 
+                    p.codigo_barras,
+                    p.precio, 
+                    p.fecha_caducidad,
+                    p.stock, 
+                    p.stock_minimo,
+                    c.nombre_categoria AS categoria, 
+                    e.nombre_estado AS estado, 
+                    pr.nombre AS proveedor
+                FROM productos p
+                JOIN categorias c ON p.id_categoria = c.id_categoria
+                JOIN estados_producto e ON p.id_estado_producto = e.id_estado_producto
+                JOIN proveedores pr ON p.id_proveedor = pr.id_proveedor
+                WHERE 1=1
+            `;
+            const queryParams = [];
+
+            if (category) {
+                query += ' AND p.id_categoria = ?';
+                queryParams.push(category);
+            }
+            if (provider) {
+                query += ' AND p.id_proveedor = ?';
+                queryParams.push(provider);
+            }
+            if (status) {
+                query += ' AND p.id_estado_producto = ?';
+                queryParams.push(status);
+            }
+
+            connection.query(query, queryParams, (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
     
 }
+
 
 module.exports = Product;

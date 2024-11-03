@@ -1,81 +1,90 @@
 /* inventory.css */
 
 body {
-    font-family: 'Inter', sans-serif;
-    display: flex;
-    margin: 0;
-  }
-  
-  .navbar {
-    width: 200px;
-    height: 100vh;
-    background: linear-gradient(180deg, #164A41 0%, #326148 50%, #9DC88D 100%);
-    padding: 20px;
-    color: white;
-  }
-  
-  .navbar-logo {
-    font-size: 24px;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .navbar-menu ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .navbar-menu ul li {
-    margin: 15px 0;
-    text-align: center;
-  }
-  
-  .navbar-menu ul li a {
-    color: white;
-    font-size: 24px;
-    text-decoration: none;
-  }
-  
-  .navbar-menu ul li a:hover {
-    color: #9DC88D;
-  }
-  
-  .inventory-container {
-    padding: 40px;
-    width: 100%;
-  }
-  
-  .inventory-container h2 {
-    font-size: 32px;
-    font-weight: 700;
-    color: #164A41;
-    margin-bottom: 20px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  table th, table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
-  }
-  
-  table th {
-    font-weight: 700;
-    color: #164A41;
-  }
-  
-  table td {
-    color: #326148;
-  }
-  
-  /* Estilos para el Modal */
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  margin: 0;
+  background-color: #f4f4f9;
+}
+
+.navbar {
+  width: 220px;
+  height: 100vh;
+  background: linear-gradient(180deg, #164A41 0%, #326148 50%, #9DC88D 100%);
+  padding: 20px;
+  color: white;
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-logo {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.navbar-menu ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.navbar-menu ul li {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.navbar-menu ul li a {
+  color: white;
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.navbar-menu ul li a:hover {
+  color: #9DC88D;
+}
+
+.inventory-container {
+  padding: 40px;
+  width: 100%;
+}
+
+.inventory-container h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #164A41;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #164A41;
+  padding-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+table th {
+  font-weight: 700;
+  color: #164A41;
+  background-color: #f9f9f9;
+}
+
+table td {
+  color: #326148;
+}
+
+/* Estilos para el Modal */
 .modal {
-  display: none; /* Oculto por defecto */
+  display: none;
   position: fixed;
   z-index: 1;
   left: 0;
@@ -90,10 +99,13 @@ body {
   margin: 5% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 90%;
-  max-width: 400px; /* Ajusta el ancho máximo del modal */
+  width: 90%; /* Ajuste ancho al 90% de la pantalla */
+  max-width: 500px; /* Ancho máximo para pantallas más grandes */
+  min-width: 300px; /* Ancho mínimo para evitar que sea demasiado pequeño */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow-y: auto; /* Permite el scroll en caso de que el contenido sea largo */
+  max-height: 90vh; /* Limita la altura máxima al 90% de la pantalla */
 }
 
 .form-container label {
@@ -103,13 +115,14 @@ body {
   color: #164A41;
 }
 
-.form-container input {
+.form-container input, .form-container select {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .submit-button {
@@ -121,6 +134,12 @@ body {
   cursor: pointer;
   width: 100%;
   font-size: 16px;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
 }
 
 .close-button {
@@ -140,7 +159,7 @@ body {
 
 .add-button-container {
   margin: 20px 0;
-  text-align: left; /* Alinear el botón a la izquierda */
+  text-align: left;
 }
 
 .add-button {
@@ -150,10 +169,43 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px; /* Ajusta el tamaño de la fuente */
+  font-size: 16px;
   font-weight: bold;
 }
 
 .add-button:hover {
   background-color: #45a049;
+}
+
+.filter-button-container {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.filter-button {
+  background-color: white;
+  border: 1px solid #164A41;
+  color: #164A41;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+.filter-button i {
+  margin-right: 5px;
+}
+
+.filter-button:hover {
+  background-color: #f4f4f9;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%; /* Ancho del 95% en pantallas pequeñas */
+    max-height: 80vh; /* Limita la altura máxima al 80% de la pantalla */
+  }
 }

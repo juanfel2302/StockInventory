@@ -7,5 +7,6 @@ const router = express.Router();
 router.get('/', isAuthenticated, productController.getAllProducts);
 router.post('/', isAuthenticated, productController.createProduct);
 
+router.get('/filter', isAuthenticated, productController.filterProducts);
 
 module.exports = router;

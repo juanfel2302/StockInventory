@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function() {
+    // Cargar productos en la tabla al iniciar
     try {
         const response = await fetch("/api/products", { method: "GET" });
         if (!response.ok) {
@@ -7,44 +8,29 @@ document.addEventListener("DOMContentLoaded", async function() {
         
         const products = await response.json();
         console.log(products); // Verifica si los productos se están recibiendo correctamente
-
-        const tableBody = document.getElementById("inventoryTable");
-        products.forEach(product => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${product.nombre}</td>
-                <td>${Number(product.precio).toFixed(2)}</td>
-                <td>${product.categoria}</td>
-                <td>${product.stock}</td>
-                <td>${product.stock_minimo}</td>
-                <td>${product.estado}</td>
-                <td>${product.proveedor}</td>
-                <td>${product.fecha_caducidad ? new Date(product.fecha_caducidad).toLocaleDateString() : 'N/A'}</td>
-            `;
-            tableBody.appendChild(row);
-        });
+        renderProducts(products);
     } catch (error) {
         console.error("Error al cargar el inventario:", error);
     }
 
     await loadSelectOptions(); // Cargar categorías, estados y proveedores en los selectores
 
-    // Lógica para abrir y cerrar el modal
+    // Configuración del modal de "Agregar Producto"
     const addProductButton = document.getElementById("addProductButton");
-    const modal = document.getElementById("addProductModal");
+    const addProductModal = document.getElementById("addProductModal");
     const closeModal = document.getElementById("closeModal");
 
     addProductButton.onclick = function() {
-        modal.style.display = "block";
+        addProductModal.style.display = "block";
     };
 
     closeModal.onclick = function() {
-        modal.style.display = "none";
+        addProductModal.style.display = "none";
     };
 
     window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+        if (event.target == addProductModal) {
+            addProductModal.style.display = "none";
         }
     };
 
@@ -69,16 +55,75 @@ document.addEventListener("DOMContentLoaded", async function() {
                 throw new Error("Error al agregar el producto");
             }
 
-            modal.style.display = "none";
-            location.reload();
+            addProductModal.style.display = "none";
+            location.reload(); // Recargar la página para ver el nuevo producto en la tabla
         } catch (error) {
             console.error("Error al guardar el producto:", error);
         }
     };
-});
 
+    // Configuración del modal de "Filtrar"
+    document.getElementById("filterButton").addEventListener("click", function () {
+        document.getElementById("filterModal").style.display = "block";
+        loadFilterOptions(); // Cargar opciones de filtro cuando se abre el modal
+    });
+
+    document.getElementById("closeFilterModal").addEventListener("click", function () {
+        document.getElementById("filterModal").style.display = "none";
+    });
+
+    window.addEventListener("click", function (event) {
+        const filterModal = document.getElementById("filterModal");
+        if (event.target == filterModal) {
+            filterModal.style.display = "none";
+        }
+    });
+
+    // Filtrar productos
+    document.getElementById("filterForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+    
+        // Obtener los valores seleccionados en los filtros
+        const category = document.getElementById("categoryFilter").value || null;
+        const provider = document.getElementById("providerFilter").value || null;
+        const status = document.getElementById("statusFilter").value || null;
+    
+        try {
+            // Enviar solicitud al backend con los filtros, omitiendo los campos vacíos
+            const response = await fetch(`/api/products/filter?category=${category || ''}&provider=${provider || ''}&status=${status || ''}`);
+            const products = await response.json();
+            renderProducts(products); // Actualiza la tabla con los productos filtrados
+            document.getElementById("filterModal").style.display = "none"; // Cierra el modal después de aplicar los filtros
+        } catch (error) {
+            console.error("Error al filtrar productos:", error);
+        }
+    });
+}); // <- Aquí se cierra la función DOMContentLoaded
+
+// Renderizar productos en la tabla
+function renderProducts(products) {
+    const tableBody = document.getElementById("inventoryTable");
+    tableBody.innerHTML = ""; // Limpia la tabla antes de renderizar los productos
+
+    products.forEach(product => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${product.nombre}</td>
+            <td>${Number(product.precio).toFixed(2)}</td>
+            <td>${product.categoria}</td>
+            <td>${product.stock}</td>
+            <td>${product.stock_minimo}</td>
+            <td>${product.estado}</td>
+            <td>${product.proveedor}</td>
+            <td>${product.fecha_caducidad ? new Date(product.fecha_caducidad).toLocaleDateString() : 'N/A'}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+
+// Cargar opciones de los selectores (categoría, estado, proveedor) en el modal de agregar producto
 async function loadSelectOptions() {
-    // Cargar categorías
     try {
         const categoryResponse = await fetch('/api/categories');
         const categories = await categoryResponse.json();
@@ -89,12 +134,7 @@ async function loadSelectOptions() {
             option.textContent = category.nombre_categoria;
             categorySelect.appendChild(option);
         });
-    } catch (error) {
-        console.error("Error al cargar categorías:", error);
-    }
 
-    // Cargar estados
-    try {
         const stateResponse = await fetch('/api/states');
         const states = await stateResponse.json();
         const stateSelect = document.getElementById('productState');
@@ -104,12 +144,7 @@ async function loadSelectOptions() {
             option.textContent = state.nombre_estado;
             stateSelect.appendChild(option);
         });
-    } catch (error) {
-        console.error("Error al cargar estados:", error);
-    }
 
-    // Cargar proveedores
-    try {
         const providerResponse = await fetch('/api/providers');
         const providers = await providerResponse.json();
         const providerSelect = document.getElementById('productProvider');
@@ -120,6 +155,47 @@ async function loadSelectOptions() {
             providerSelect.appendChild(option);
         });
     } catch (error) {
-        console.error("Error al cargar proveedores:", error);
+        console.error("Error al cargar opciones del selector:", error);
+    }
+}
+
+// Cargar opciones de los filtros (categoría, proveedor, estado) en el modal de filtro
+async function loadFilterOptions() {
+    try {
+        const categorySelect = document.getElementById('categoryFilter');
+        categorySelect.innerHTML = '<option value="">Todas</option>'; // Limpiar opciones anteriores
+        const providerSelect = document.getElementById('providerFilter');
+        providerSelect.innerHTML = '<option value="">Todos</option>';
+        const statusSelect = document.getElementById('statusFilter');
+        statusSelect.innerHTML = '<option value="">Todos</option>';
+
+        const categoriesResponse = await fetch('/api/categories');
+        const categories = await categoriesResponse.json();
+        categories.forEach(category => {
+            const option = document.createElement('option');
+            option.value = category.id_categoria;
+            option.textContent = category.nombre_categoria;
+            categorySelect.appendChild(option);
+        });
+
+        const providersResponse = await fetch('/api/providers');
+        const providers = await providersResponse.json();
+        providers.forEach(provider => {
+            const option = document.createElement('option');
+            option.value = provider.id_proveedor;
+            option.textContent = provider.nombre;
+            providerSelect.appendChild(option);
+        });
+
+        const statusesResponse = await fetch('/api/states');
+        const statuses = await statusesResponse.json();
+        statuses.forEach(status => {
+            const option = document.createElement('option');
+            option.value = status.id_estado_producto;
+            option.textContent = status.nombre_estado;
+            statusSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Error al cargar opciones de filtro:", error);
     }
 }

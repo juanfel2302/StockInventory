@@ -35,6 +35,13 @@
       <button id="addProductButton" class="add-button">Agregar +</button>
     </div>
     
+        <!-- Botón filtrar -->
+
+    <div class="filter-button-container">
+      <button id="filterButton" class="filter-button">
+        <i class="fas fa-filter"></i> Filtrar
+      </button>
+    </div>
     <table>
       <thead>
         <tr>
@@ -92,6 +99,33 @@
     </form>
   </div>
 </div>
+
+<!-- Modal de Filtro -->
+<div id="filterModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button" id="closeFilterModal">&times;</span>
+    <h2>Filtrar Productos</h2>
+    <form id="filterForm">
+      <label for="categoryFilter">Categoría:</label>
+      <select id="categoryFilter">
+        <option value="">Todas</option>
+      </select>
+
+      <label for="providerFilter">Proveedor:</label>
+      <select id="providerFilter">
+        <option value="">Todos</option>
+      </select>
+
+      <label for="statusFilter">Estado:</label>
+      <select id="statusFilter">
+        <option value="">Todos</option>
+      </select>
+
+      <button type="submit" class="submit-button">Aplicar Filtros</button>
+    </form>
+  </div>
+</div>
+
 
 
   <script src="js/inventory.js"></script>

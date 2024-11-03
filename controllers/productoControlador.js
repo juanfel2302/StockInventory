@@ -20,3 +20,18 @@ exports.createProduct = async (req, res) => {
     res.status(500).json({ error: 'Failed to add product' });
   }
 };
+
+exports.filterProducts = async (req, res) => {
+  try {
+      const { category, provider, status } = req.query;
+      const filters = {
+          category: category !== "" ? category : null,
+          provider: provider !== "" ? provider : null,
+          status: status !== "" ? status : null
+      };
+      const products = await Product.filter(filters);
+      res.json(products);
+  } catch (error) {
+      res.status(500).json({ error: 'Error al filtrar productos' });
+  }
+};
