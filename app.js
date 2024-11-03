@@ -8,6 +8,7 @@ const categoryRoutes = require('./routes/categoryRoutes'); // Asegúrate de que 
 const stateRoutes = require('./routes/stateRoutes');
 const providerRoutes = require('./routes/providerRoutes'); // Asegúrate de que la ruta sea correcta
 const userRoutes = require('./routes/userRoutes');
+const movimientoRoutes = require('./routes/movimientoRoutes'); // Import the route
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -73,7 +74,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/states', stateRoutes);
 app.use('/api/providers', providerRoutes);
 app.use('/api/users', userRoutes); // Ruta API para usuarios
-
+app.use('/api/movimientos', movimientoRoutes);
 
 // Iniciar el servidor
 app.listen(port, () => {

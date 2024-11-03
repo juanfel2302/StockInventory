@@ -198,4 +198,102 @@ async function loadFilterOptions() {
     } catch (error) {
         console.error("Error al cargar opciones de filtro:", error);
     }
+
+    
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const registerExitModal = document.getElementById("registerExitModal");
+    const exitTableBody = document.getElementById("exitTableBody");
+    const addRowButton = document.getElementById("addRowButton");
+  
+    // Abrir el modal de salida
+    document.getElementById("openExitModal").onclick = () => {
+      registerExitModal.style.display = "block";
+      addExitRow(); // Agregar una fila inicial
+    };
+  
+    // Cerrar el modal de salida
+    document.getElementById("closeExitModal").onclick = () => {
+      registerExitModal.style.display = "none";
+      exitTableBody.innerHTML = ""; // Limpiar las filas al cerrar
+    };
+  
+    // Agregar una nueva fila al formulario
+    addRowButton.onclick = addExitRow;
+  
+    // Función para agregar una fila de salida
+    function addExitRow() {
+      const row = document.createElement("tr");
+  
+      row.innerHTML = `
+        <td>
+          <select class="productSelect" required>
+            <!-- Opciones de productos se cargarán dinámicamente -->
+          </select>
+        </td>
+        <td>
+          <input type="text" class="exitReason" required>
+        </td>
+        <td>
+          <input type="number" class="exitQuantity" min="1" required>
+        </td>
+        <td>
+          <button type="button" class="removeRowButton">-</button>
+        </td>
+      `;
+      
+      // Botón para eliminar la fila
+      row.querySelector(".removeRowButton").onclick = () => row.remove();
+  
+      // Cargar productos en el selector de productos
+      loadProductOptions(row.querySelector(".productSelect"));
+  
+      exitTableBody.appendChild(row);
+    }
+  
+    // Cargar opciones de productos en el selector de cada fila
+    async function loadProductOptions(selectElement) {
+      try {
+        const response = await fetch("/api/products");
+        const products = await response.json();
+        products.forEach(product => {
+          const option = document.createElement("option");
+          option.value = product.id_producto;
+          option.textContent = product.nombre;
+          selectElement.appendChild(option);
+        });
+      } catch (error) {
+        console.error("Error cargando productos:", error);
+      }
+    }
+  
+    // Enviar el formulario de salida
+    document.getElementById("registerExitForm").onsubmit = async function(event) {
+      event.preventDefault();
+      
+      const exitData = Array.from(exitTableBody.querySelectorAll("tr")).map(row => ({
+        id_producto: row.querySelector(".productSelect").value,
+        motivo: row.querySelector(".exitReason").value,
+        cantidad: row.querySelector(".exitQuantity").value,
+      }));
+  
+      try {
+        const response = await fetch("/api/movimientos/salidas", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(exitData),
+        });
+  
+        if (response.ok) {
+          registerExitModal.style.display = "none";
+          location.reload(); // Recargar para ver los cambios en el inventario
+        } else {
+          console.error("Error registrando salidas");
+        }
+      } catch (error) {
+        console.error("Error en la solicitud:", error);
+      }
+    };
+  });
+  

@@ -209,3 +209,31 @@ table td {
     max-height: 80vh; /* Limita la altura máxima al 80% de la pantalla */
   }
 }
+/* Styles for Register Exit Modal */
+#registerExitModal .modal-content {
+  width: 90%;
+  max-width: 600px;
+}
+
+#exitTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#exitTable th, #exitTable td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.add-row-button, .removeRowButton {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.add-row-button:hover, .removeRowButton:hover {
+  background-color: #d32f2f;
+}

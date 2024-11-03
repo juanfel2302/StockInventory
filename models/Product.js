@@ -6,6 +6,7 @@ class Product {
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT 
+                    p.id_producto,       
                     p.nombre, 
                     p.codigo_barras,
                     p.precio, 
@@ -89,8 +90,30 @@ class Product {
             });
         });
     }
+    static getById(id_producto) {
+        return new Promise((resolve, reject) => {
+          const query = "SELECT * FROM productos WHERE id_producto = ?";
+          connection.query(query, [id_producto], (err, results) => {
+            if (err) reject(err);
+            else resolve(results[0]); // Return the first (and only) result
+          });
+        });
+      }
     
-}
+      static updateStock(id_producto, cantidad) {
+        return new Promise((resolve, reject) => {
+          const query = `UPDATE productos SET stock = stock + ? WHERE id_producto = ?`;
+          connection.query(query, [cantidad, id_producto], (err, results) => {
+            if (err) reject(err);
+            else resolve(results);
+          });
+        });
+      }
+    }
+    
+    
+
+
 
 
 module.exports = Product;

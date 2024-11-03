@@ -42,6 +42,10 @@
         <i class="fas fa-filter"></i> Filtrar
       </button>
     </div>
+ <!-- Botón Salida -->
+    <div class="exit-button-container">
+      <button id="openExitModal" class="add-button">Registrar Salidas</button>
+  </div>
     <table>
       <thead>
         <tr>
@@ -125,9 +129,35 @@
     </form>
   </div>
 </div>
+<!-- Modal para Registrar Salidas de Producto -->
+<div id="registerExitModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button" id="closeExitModal">&times;</span>
+    <h2>Registrar Salidas de Inventario</h2>
+    <form id="registerExitForm" class="form-container">
+      <table id="exitTable">
+        <thead>
+          <tr>
+            <th>Seleccionar Producto</th>
+            <th>Motivo de Salida</th>
+            <th>Cantidad a Retirar</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="exitTableBody">
+          <!-- Se agregarán filas dinámicamente aquí -->
+        </tbody>
+      </table>
+      <button type="button" id="addRowButton" class="add-row-button">+ Agregar otra salida</button>
+      <button type="submit" class="submit-button">Registrar Salidas</button>
+    </form>
+  </div>
+</div>
+
 
 
 
   <script src="js/inventory.js"></script>
+  <script src="js/modal.js"></script>
 </body>
 </html>
