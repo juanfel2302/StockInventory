@@ -65,6 +65,15 @@ app.get('/users', (req, res) => {
     }
 });
 
+app.get('/notification', (req, res) => {
+    if (req.session && req.session.userId) {
+        res.sendFile(path.join(__dirname, 'views', 'notification.html'));
+    } else {
+        res.redirect('/');
+    }
+});
+
+
 
 
 // Rutas de API

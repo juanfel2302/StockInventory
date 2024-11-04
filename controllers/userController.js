@@ -20,7 +20,7 @@ exports.createUser = async (req, res) => {
 // Obtener todos los usuarios
 exports.getAllUsers = async (req, res) => {
     try {
-        const users = await User.getAllUsers(); // Asegúrate de que este método esté definido en el modelo
+        const users = await User.getAll(); // Asegúrate de que este método esté definido en el modelo
         res.status(200).json(users);
     } catch (err) {
         res.status(500).json({ error: 'Error al obtener los usuarios: ' + err.message });
@@ -45,27 +45,25 @@ exports.getUserById = async (req, res) => {
 // Actualizar un usuario - debes agregar el método 'update' en el modelo
 exports.updateUser = async (req, res) => {
     const { id } = req.params;
-    const { nombre_usuario, contrasena, es_administrador, estado } = req.body;
+    let { nombre_usuario, contrasena, es_administrador, estado } = req.body;
+
+    if (!nombre_usuario || !estado) {
+        return res.status(400).json({ error: 'Los campos nombre_usuario y estado son obligatorios.' });
+    }
 
     try {
-        const updatedData = {
-            nombre_usuario,
-            ...(contrasena && { contrasena: await bcrypt.hash(contrasena, 10) }),
-            es_administrador,
-            estado
-        };
+        contrasena = contrasena ? await bcrypt.hash(contrasena, 10) : null;
+        const result = await User.update(id, nombre_usuario, contrasena, es_administrador, estado);
 
-        // Aquí debes agregar un método 'update' en tu modelo
-        const updatedUser = await User.update(id, updatedData); 
-        if (!updatedUser) {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
+        if (result.includes("No se encontró un usuario")) {
+            return res.status(404).json({ error: result });
         }
-        res.status(200).json({ message: 'Usuario actualizado exitosamente' });
+
+        res.status(200).json({ message: result });
     } catch (err) {
         res.status(500).json({ error: 'Error al actualizar el usuario: ' + err.message });
     }
 };
-
 // Eliminar un usuario - debes agregar el método 'delete' en el modelo
 exports.deleteUser = async (req, res) => {
     const { id } = req.params;

@@ -12,26 +12,12 @@ class User {
   }
 
   
-  static getAllUsers() {
+  static getAll() {
     return new Promise((resolve, reject) => {
       const query = 'SELECT * FROM usuarios';
-  
       connection.query(query, (err, results) => {
-        if (err) {
-          reject(err); // En caso de error, rechaza la promesa con el error
-        } else {
-          // Si hay resultados, mapea cada fila a una instancia de User
-          const users = results.map(result => 
-            new User(
-              result.id_usuario,
-              result.nombre_usuario,
-              result.contrasena,
-              result.es_administrador,
-              result.estado
-            )
-          );
-          resolve(users); // Resuelve la promesa con el arreglo de usuarios
-        }
+        if (err) return reject(err);
+        resolve(results);
       });
     });
   }
@@ -114,6 +100,31 @@ class User {
       })
     })
   }
+
+  static update(id_usuario, nombre_usuario, contrasena, es_administrador, estado) {
+    return new Promise((resolve, reject) => {
+      let query = 'UPDATE usuarios SET nombre_usuario = ?, es_administrador = ?, estado = ?';
+      const params = [nombre_usuario, es_administrador, estado];
+      
+      if (contrasena) {
+        query += ', contrasena = ?';
+        params.push(contrasena);
+      }
+      
+      query += ' WHERE id_usuario = ?';
+      params.push(id_usuario);
+      
+      connection.query(query, params, (err, result) => {
+        if (err) {
+          reject(err);
+        } else if (result.affectedRows > 0) {
+          resolve(`Usuario con ID ${id_usuario} actualizado exitosamente.`);
+        } else {
+          resolve(`No se encontró un usuario con ID ${id_usuario}.`);
+        }
+      });
+    });
+  } 
 }
 
 

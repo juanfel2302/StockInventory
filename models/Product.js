@@ -62,7 +62,7 @@ class Product {
                     pr.nombre AS proveedor
                 FROM productos p
                 JOIN categorias c ON p.id_categoria = c.id_categoria
-                JOIN estados_producto e ON p.id_estado_producto = e.id_estado_producto
+                JOIN estados_producto e ON p.id_estado_producto l= e.id_estado_producto
                 JOIN proveedores pr ON p.id_proveedor = pr.id_proveedor
                 WHERE 1=1
             `;
