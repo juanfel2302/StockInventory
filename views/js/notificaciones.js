@@ -2,8 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const userIcon = document.getElementById('userIcon');
     const userDropdown = document.getElementById('userDropdown');
     const logoutLink = document.querySelector('.dropdown-item'); // Selecciona el enlace de cerrar sesión
-    const notificationLink = document.querySelector('.fas fa-bell'); // Selecciona el enlace de cerrar sesión
-
+    const notificationLink = document.querySelector('.fa-bell'); // Selecciona el icono de notificaciones
 
     userIcon.addEventListener('click', function(event) {
         event.preventDefault(); // Evita que el enlace realice su acción predeterminada
@@ -20,11 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Redirige a login.html al hacer clic en "Cerrar Sesión"
     logoutLink.addEventListener('click', function() {
         window.location.href = 'login.html'; // Redirige a la página de inicio de sesión
-        
     });
 
+    // Redirige a notificaciones.html al hacer clic en el icono de notificaciones
     notificationLink.addEventListener('click', function() {
-        window.location.href = 'notification.html'; // Redirige a la página de inicio de sesión
-        
+        window.location.href = 'notificaciones.html'; // Redirige a la página de notificaciones
     });
 });

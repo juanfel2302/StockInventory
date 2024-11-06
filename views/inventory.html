@@ -45,7 +45,10 @@
  <!-- Botón Salida -->
     <div class="exit-button-container">
       <button id="openExitModal" class="add-button">Registrar Salidas</button>
+      <button id="openEnterModal" class="add-button">Registrar Entrada</button>
+
   </div>
+ 
     <table>
       <thead>
         <tr>
@@ -150,6 +153,30 @@
       </table>
       <button type="button" id="addRowButton" class="add-row-button">+ Agregar otra salida</button>
       <button type="submit" class="submit-button">Registrar Salidas</button>
+    </form>
+  </div>
+</div>
+
+<div id="registerEnterModal" class="modal">
+  <div class="modal-content">
+    <!-- Cambié el id del botón de cierre a "closeEnterModal" -->
+    <span class="close-button" id="closeEnterModal">&times;</span>
+    <h2>Registrar Entradas de Inventario</h2>
+    <form id="registerEnterForm" class="form-container">
+      <table id="enterTable">
+        <thead>
+          <tr>
+            <th>Seleccionar Producto</th>
+            <th>Cantidad Ingresada</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="EnterTableBody">
+          <!-- Se agregarán filas dinámicamente aquí -->
+        </tbody>
+      </table>
+      <button type="button" id="addEnterRowButton" class="add-row-button">+ Agregar otra entrada</button>
+      <button type="submit" class="submit-button">Registrar Entradas</button>
     </form>
   </div>
 </div>

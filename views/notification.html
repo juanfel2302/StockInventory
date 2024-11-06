@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificaciones - Stock Inventory</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/notificaciones.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-logo">
+        <h2>Stock Inventory</h2>
+    </div>
+    <div class="navbar-menu">
+        <ul>
+            <li><a href="/home"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+            <li><a href="/inventory"><i class="fas fa-box"></i><span>Inventario</span></a></li>
+            <li><a href="/provider"><i class="fas fa-truck"></i><span>Proveedores</span></a></li>
+            <li><a href="/users"><i class="fas fa-users"></i><span>Usuarios</span></a></li>
+        </ul>
+    </div>
+  </div>
+
+  <!-- Panel de Notificaciones -->
+  <div class="notification-panel">
+    <h2>Notificaciones</h2>
+    <table class="notification-table">
+      <thead>
+        <tr>
+          <th>Notificación</th>
+          <th>Tipo</th>
+          <th>Descripción</th>
+          <th>Fecha y Hora</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><i class="fas fa-bell"></i></td>
+          <td>Entrada</td>
+          <td>Se agregaron 40 cocacolas</td>
+          <td>06/11/2024 12:45</td>
+        </tr>
+        <!-- Agrega más filas según sea necesario -->
+      </tbody>
+    </table>
+  </div>
+
+  <script src="js/notificaciones.js"></script>
+</body>
+</html>

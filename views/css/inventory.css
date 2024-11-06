@@ -96,7 +96,7 @@ table td {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 5% auto;
+  margin: auto;
   padding: 20px;
   border: 1px solid #888;
   width: 90%; /* Ajuste ancho al 90% de la pantalla */
@@ -209,31 +209,47 @@ table td {
     max-height: 80vh; /* Limita la altura máxima al 80% de la pantalla */
   }
 }
-/* Styles for Register Exit Modal */
-#registerExitModal .modal-content {
-  width: 90%;
-  max-width: 600px;
+
+/* Alineación de los botones de entrada y salida */
+.button-container {
+  display: flex;
+  justify-content: flex-start; /* Para alinear los botones a la izquierda */
+  gap: 10px; /* Espacio entre los botones */
+  margin-top: 20px;
 }
 
-#exitTable {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-#exitTable th, #exitTable td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-.add-row-button, .removeRowButton {
-  background-color: #f44336;
+.button-container .add-button {
+  background-color: #4CAF50;
   color: white;
+  padding: 10px 20px;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
-  padding: 5px;
-  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-.add-row-button:hover, .removeRowButton:hover {
-  background-color: #d32f2f;
+.button-container .add-button:hover {
+  background-color: #45a049;
+}
+
+.button-container .filter-button {
+  background-color: white;
+  border: 1px solid #164A41;
+  color: #164A41;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+.button-container .filter-button i {
+  margin-right: 5px;
+}
+
+.button-container .filter-button:hover {
+  background-color: #f4f4f9;
 }
