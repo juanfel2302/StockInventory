@@ -10,7 +10,7 @@ exports.registrarSalidas = async (req, res) => {
     for (const exit of exitData) {
       const { id_producto, cantidad, motivo } = exit;
 
-      // Get current stock for validation
+      // Obtener el producto actual y validar el stock
       const product = await Product.getById(id_producto);
       if (!product) {
         return res.status(400).json({ error: "Producto no encontrado" });
@@ -22,17 +22,17 @@ exports.registrarSalidas = async (req, res) => {
         });
       }
 
-      // Record the exit in movimientos_stock
+      // Registrar el movimiento
       await Movimiento.create({
         id_producto,
-        id_tipo_movimiento: 2, // Assuming '2' is for "Salida de Stock"
+        id_tipo_movimiento: 2, // 2 representa "Salida de Stock"
         cantidad,
         motivo,
         id_usuario
       });
 
-      // Update stock in productos table (reduce stock)
-      await Product.updateStock(id_producto, -cantidad);
+      // Actualizar el stock y estado del producto
+      await Product.updateStockAndState(id_producto, -cantidad);
     }
 
     res.status(200).json({ message: "Salidas registradas exitosamente" });

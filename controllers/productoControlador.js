@@ -1,8 +1,11 @@
-// controllers/productController.js
+// controllers/productoControlador.js
 const Product = require('../models/Product');
 
 exports.getAllProducts = async (req, res) => {
   try {
+    // Actualizar estados antes de devolver los productos
+    await Product.updateAllStates();
+
     const products = await Product.getAll();
     res.json(products);
   } catch (error) {

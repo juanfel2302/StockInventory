@@ -19,11 +19,22 @@ app.use(express.urlencoded({ extended: true }));
 
 // Configuración de sesiones
 app.use(session({
-    secret: 'clave_secreta',
+    secret: 'clave_secreta', // Cambia esto por un valor seguro
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // Cambiar a true si estás usando HTTPS
+    cookie: {
+        secure: false, // Cambia a `true` si usas HTTPS
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 // 1 hora
+    }
 }));
+
+// Middleware para evitar el caché en páginas protegidas
+app.use((req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.setHeader('Pragma', 'no-cache');
+    next();
+});
 
 // Servir archivos estáticos desde la carpeta "views"
 app.use(express.static(path.join(__dirname, 'views')));
@@ -72,7 +83,6 @@ app.get('/notification', (req, res) => {
         res.redirect('/');
     }
 });
-
 
 
 
