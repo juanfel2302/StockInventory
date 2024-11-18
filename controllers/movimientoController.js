@@ -41,3 +41,33 @@ exports.registrarSalidas = async (req, res) => {
     res.status(500).json({ error: "Error al registrar salidas" });
   }
 };
+
+exports.registrarEntradas = async (req, res) => {
+  const { id_producto, cantidad, motivo } = req.body;
+  const id_usuario = req.session.userId;
+
+  try {
+      // Validar producto
+      const product = await Product.getById(id_producto);
+      if (!product) {
+          return res.status(400).json({ error: "Producto no encontrado" });
+      }
+
+      // Registrar el movimiento
+      await Movimiento.create({
+          id_producto,
+          id_tipo_movimiento: 1, // 1 representa "Ingreso de Stock"
+          cantidad,
+          motivo,
+          id_usuario
+      });
+
+      // Actualizar el stock del producto
+      await Product.updateStockAndState(id_producto, cantidad);
+
+      res.status(200).json({ message: "Entrada registrada exitosamente" });
+  } catch (error) {
+      console.error("Error al registrar entrada:", error);
+      res.status(500).json({ error: "Error al registrar entrada" });
+  }
+};

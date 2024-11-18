@@ -38,3 +38,18 @@ exports.filterProducts = async (req, res) => {
       res.status(500).json({ error: 'Error al filtrar productos' });
   }
 };
+
+exports.updateProduct = async (req, res) => {
+  try {
+      const { id_producto } = req.params;
+      const productData = req.body;
+
+      await Product.update(id_producto, productData);
+
+      res.json({ message: "Producto actualizado exitosamente" });
+  } catch (error) {
+      console.error("Error al actualizar producto:", error);
+      res.status(500).json({ error: "Error al actualizar producto" });
+  }
+};
+

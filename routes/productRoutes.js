@@ -6,7 +6,7 @@ const router = express.Router();
 // Protege la ruta de productos con el middleware `isAuthenticated`
 router.get('/', isAuthenticated, productController.getAllProducts);
 router.post('/', isAuthenticated, productController.createProduct);
-
+router.put('/:id_producto', isAuthenticated, productController.updateProduct);
 router.get('/filter', isAuthenticated, productController.filterProducts);
 
 module.exports = router;

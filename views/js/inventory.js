@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", async function() {
     // Cargar productos en la tabla al iniciar
     try {
@@ -102,24 +103,141 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 // Renderizar productos en la tabla
 function renderProducts(products) {
-    const tableBody = document.getElementById("inventoryTable");
-    tableBody.innerHTML = ""; // Limpia la tabla antes de renderizar los productos
+  const tableBody = document.getElementById("inventoryTable");
+  tableBody.innerHTML = ""; // Limpia la tabla antes de renderizar los productos
 
-    products.forEach(product => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${product.nombre}</td>
-            <td>${Number(product.precio).toFixed(2)}</td>
-            <td>${product.categoria}</td>
-            <td>${product.stock}</td>
-            <td>${product.stock_minimo}</td>
-            <td>${product.estado}</td>
-            <td>${product.proveedor}</td>
-            <td>${product.fecha_caducidad ? new Date(product.fecha_caducidad).toLocaleDateString() : 'N/A'}</td>
-        `;
-        tableBody.appendChild(row);
-    });
+  products.forEach(product => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+          <td>${product.nombre}</td>
+          <td>${Number(product.precio).toFixed(2)}</td>
+          <td>${product.categoria}</td>
+          <td>${product.stock}</td>
+          <td>${product.stock_minimo}</td>
+          <td>${product.estado}</td>
+          <td>${product.proveedor}</td>
+          <td>${product.fecha_caducidad ? new Date(product.fecha_caducidad).toLocaleDateString() : 'N/A'}</td>
+          <td>
+              <button class="edit-button" 
+                      data-id="${product.id_producto}" 
+                      data-nombre="${product.nombre}" 
+                      data-codigo_barras="${product.codigo_barras}" 
+                      data-precio="${product.precio}" 
+                      data-id_categoria="${product.id_categoria}" 
+                      data-stock="${product.stock}" 
+                      data-stock_minimo="${product.stock_minimo}" 
+                      data-id_estado_producto="${product.id_estado_producto}" 
+                      data-id_proveedor="${product.id_proveedor}" 
+                      data-fecha_caducidad="${product.fecha_caducidad}">
+                  <i class="fas fa-edit"></i>
+              </button>
+          </td>
+      `;
+      tableBody.appendChild(row);
+  });
 }
+document.getElementById("inventoryTable").addEventListener("click", async function(event) {
+  if (event.target.closest(".edit-button")) {
+      const button = event.target.closest(".edit-button");
+
+      // Extraer datos del botón
+      const productData = {
+          id_producto: button.dataset.id,
+          nombre: button.dataset.nombre,
+          codigo_barras: button.dataset.codigo_barras,
+          precio: button.dataset.precio,
+          id_categoria: button.dataset.id_categoria,
+          stock_minimo: button.dataset.stock_minimo,
+          id_proveedor: button.dataset.id_proveedor,
+          fecha_caducidad: button.dataset.fecha_caducidad,
+      };
+
+      // Rellenar campos del formulario (sin incluir stock)
+      document.getElementById("editProductId").value = productData.id_producto;
+      document.getElementById("editProductName").value = productData.nombre;
+      document.getElementById("editProductBarcode").value = productData.codigo_barras;
+      document.getElementById("editProductPrice").value = productData.precio;
+      document.getElementById("editProductMinStock").value = productData.stock_minimo;
+      document.getElementById("editProductExpiry").value = productData.fecha_caducidad
+          ? new Date(productData.fecha_caducidad).toISOString().split("T")[0]
+          : "";
+
+      await loadEditSelectOptions(productData);
+
+      document.getElementById("editProductModal").style.display = "block";
+  }
+});
+
+
+
+async function loadEditSelectOptions(productData) {
+  try {
+      // Cargar categorías
+      const categoryResponse = await fetch('/api/categories');
+      const categories = await categoryResponse.json();
+      const categorySelect = document.getElementById('editProductCategory');
+      categorySelect.innerHTML = ""; // Limpiar el selector antes de agregar opciones
+      categories.forEach(category => {
+          const option = document.createElement('option');
+          option.value = category.id_categoria;
+          option.textContent = category.nombre_categoria;
+          if (category.id_categoria == productData.id_categoria) {
+              option.selected = true; // Selecciona la categoría correspondiente
+          }
+          categorySelect.appendChild(option);
+      });
+
+      // Cargar proveedores
+      const providerResponse = await fetch('/api/providers');
+      const providers = await providerResponse.json();
+      const providerSelect = document.getElementById('editProductProvider');
+      providerSelect.innerHTML = ""; // Limpiar el selector antes de agregar opciones
+      providers.forEach(provider => {
+          const option = document.createElement('option');
+          option.value = provider.id_proveedor;
+          option.textContent = provider.nombre;
+          if (provider.id_proveedor == productData.id_proveedor) {
+              option.selected = true; // Selecciona el proveedor correspondiente
+          }
+          providerSelect.appendChild(option);
+      });
+
+  } catch (error) {
+      console.error("Error al cargar opciones de edición:", error);
+  }
+}
+
+
+document.getElementById("closeEditModal").onclick = function() {
+  document.getElementById("editProductModal").style.display = "none";
+};
+
+document.getElementById("editProductForm").onsubmit = async function(event) {
+  event.preventDefault();
+
+  const formData = new FormData(document.getElementById("editProductForm"));
+  const data = Object.fromEntries(formData.entries());
+
+  // Enviar datos al backend
+  try {
+      const response = await fetch(`/api/products/${data.id_producto}`, {
+          method: "PUT",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+          throw new Error("Error al actualizar el producto");
+      }
+
+      document.getElementById("editProductModal").style.display = "none"; // Cerrar modal
+      location.reload(); // Recargar para ver los cambios
+  } catch (error) {
+      console.error("Error al actualizar el producto:", error);
+  }
+};
 
 
 // Cargar opciones de los selectores (categoría, estado, proveedor) en el modal de agregar producto
@@ -267,6 +385,8 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("Error cargando productos:", error);
       }
     }
+
+    
   
     // Enviar el formulario de salida
     document.getElementById("registerExitForm").onsubmit = async function(event) {
