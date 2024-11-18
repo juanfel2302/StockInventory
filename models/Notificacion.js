@@ -4,8 +4,8 @@ class Notificacion {
     static create(data) {
         return new Promise((resolve, reject) => {
             const query = `
-                INSERT INTO notificaciones (id_producto, id_tipo_notificacion, mensaje, fecha_creacion)
-                VALUES (?, ?, ?, NOW())
+                INSERT INTO notificaciones (id_producto, id_tipo_notificacion, mensaje, fecha_creacion, leida)
+                VALUES (?, ?, ?, NOW(), false)
             `;
             const { id_producto, id_tipo_notificacion, mensaje } = data;
             connection.query(query, [id_producto, id_tipo_notificacion, mensaje], (err, results) => {
@@ -21,7 +21,8 @@ class Notificacion {
                 SELECT n.id_notificacion, n.mensaje, 
                        DATE_FORMAT(n.fecha_creacion, '%Y-%m-%d %H:%i:%s') AS fecha_creacion,
                        tn.nombre_tipo_notificacion, 
-                       p.nombre AS producto
+                       p.nombre AS producto,
+                       n.leida
                 FROM notificaciones n
                 JOIN tipos_notificacion tn ON n.id_tipo_notificacion = tn.id_tipo_notificacion
                 JOIN productos p ON n.id_producto = p.id_producto
@@ -34,20 +35,32 @@ class Notificacion {
         });
     }
 
-    static createForExpiringProduct(id_producto, mensaje) {
+    static marcarComoLeida(id_notificacion) {
         return new Promise((resolve, reject) => {
             const query = `
-                INSERT INTO notificaciones (id_producto, id_tipo_notificacion, mensaje, fecha_creacion)
-                VALUES (?, ?, ?, NOW())
+                UPDATE notificaciones
+                SET leida = true
+                WHERE id_notificacion = ?
             `;
-            const id_tipo_notificacion = 6; // Supongamos que el tipo 6 es "Próximo a Expirar"
-            connection.query(query, [id_producto, id_tipo_notificacion, mensaje], (err, results) => {
+            connection.query(query, [id_notificacion], (err, results) => {
                 if (err) reject(err);
                 resolve(results);
             });
         });
     }
 
+    static marcarTodasComoLeidas() {
+        return new Promise((resolve, reject) => {
+            const query = `
+                UPDATE notificaciones
+                SET leida = true
+            `;
+            connection.query(query, (err, results) => {
+                if (err) reject(err);
+                resolve(results);
+            });
+        });
+    }
     static existsForProductAndType(id_producto, id_tipo_notificacion) {
         return new Promise((resolve, reject) => {
             const query = `
@@ -57,7 +70,7 @@ class Notificacion {
             `;
             connection.query(query, [id_producto, id_tipo_notificacion], (err, results) => {
                 if (err) reject(err);
-                resolve(results[0].count > 0); // Retorna true si ya existe una notificación
+                resolve(results[0].count > 0); // Devuelve true si ya existe una notificación
             });
         });
     }

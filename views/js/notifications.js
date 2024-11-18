@@ -11,14 +11,16 @@ document.addEventListener('DOMContentLoaded', async function () {
             notificationsList.innerHTML = ''; // Limpiar la lista de notificaciones
 
             notifications.forEach(notification => {
-                console.log('Fecha de creación recibida:', notification.fecha_creacion);
-
-                // Crear el objeto Date desde la fecha recibida en la base de datos
                 const fechaCreacion = new Date(notification.fecha_creacion);
 
                 // Crear un elemento para la notificación
                 const notificationItem = document.createElement('div');
                 notificationItem.classList.add('notification-item');
+
+                // Agregar clase adicional si la notificación ya está leída
+                if (notification.leida) {
+                    notificationItem.classList.add('read'); // Clase CSS para notificaciones leídas
+                }
 
                 // Determinar el ícono basado en el tipo de notificación
                 let iconClass;
@@ -37,13 +39,27 @@ document.addEventListener('DOMContentLoaded', async function () {
                         break;
                 }
 
-                // Agregar contenido de la notificación
+                // Agregar contenido de la notificación con un botón para marcarla como leída
                 notificationItem.innerHTML = `
                     <i class="${iconClass}"></i>
                     <p>${notification.mensaje}</p>
                     <span class="notification-time">${formatTimeAgo(fechaCreacion)}</span>
+                    ${
+                        !notification.leida
+                            ? `<button class="mark-read-button" data-id="${notification.id_notificacion}">Marcar como leída</button>`
+                            : ''
+                    }
                 `;
                 notificationsList.appendChild(notificationItem);
+            });
+
+            // Agregar eventos a los botones de "Marcar como leída"
+            document.querySelectorAll('.mark-read-button').forEach(button => {
+                button.addEventListener('click', async event => {
+                    const notificationId = event.target.getAttribute('data-id');
+                    await markNotificationAsRead(notificationId);
+                    loadNotifications();
+                });
             });
         } catch (error) {
             console.error('Error cargando notificaciones:', error);
@@ -51,13 +67,33 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     }
 
+    async function markNotificationAsRead(id) {
+        try {
+            const response = await fetch(`/api/notifications/${id}/marcar-leida`, { method: 'PUT' });
+            if (!response.ok) throw new Error('Error al marcar la notificación como leída');
+        } catch (error) {
+            console.error('Error al marcar la notificación como leída:', error);
+        }
+    }
+
+    async function markAllNotificationsAsRead() {
+        try {
+            const response = await fetch('/api/notifications/marcar-todas-leidas', { method: 'PUT' });
+            if (!response.ok) throw new Error('Error al marcar todas las notificaciones como leídas');
+        } catch (error) {
+            console.error('Error al marcar todas las notificaciones como leídas:', error);
+        }
+    }
+
+    // Marcar todas como leídas
+    markAllReadButton.addEventListener('click', async () => {
+        await markAllNotificationsAsRead();
+        loadNotifications();
+    });
+
     function formatTimeAgo(fechaBase) {
         const now = new Date();
-
-        // Calcular la diferencia en segundos entre `now` y `fechaBase`
         const diffInSeconds = Math.floor((now - fechaBase) / 1000);
-
-        console.log('Fecha base:', fechaBase, 'Fecha actual:', now, 'Diferencia en segundos:', diffInSeconds);
 
         if (diffInSeconds < 60) return 'Hace unos segundos';
         const diffInMinutes = Math.floor(diffInSeconds / 60);
@@ -67,11 +103,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         const diffInDays = Math.floor(diffInHours / 24);
         return `Hace ${diffInDays} día${diffInDays > 1 ? 's' : ''}`;
     }
-
-    // Marcar todas como leídas
-    markAllReadButton.addEventListener('click', () => {
-        console.log('Marcar todas como leídas (pendiente de implementación en el backend)');
-    });
 
     // Cargar las notificaciones al cargar la página
     loadNotifications();

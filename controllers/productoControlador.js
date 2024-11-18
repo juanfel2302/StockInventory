@@ -42,14 +42,16 @@ exports.filterProducts = async (req, res) => {
 exports.updateProduct = async (req, res) => {
   try {
       const { id_producto } = req.params;
-      const productData = req.body;
+      const { nombre, codigo_barras, id_categoria, precio, stock, stock_minimo, id_proveedor, fecha_caducidad } = req.body;
 
-      await Product.update(id_producto, productData);
+      if (!id_producto || !nombre || !id_categoria || !precio || !stock || !stock_minimo || !id_proveedor) {
+          return res.status(400).json({ error: 'Todos los campos obligatorios deben completarse.' });
+      }
 
-      res.json({ message: "Producto actualizado exitosamente" });
+      const result = await Product.update(id_producto, req.body);
+      res.json({ message: "Producto actualizado exitosamente", result });
   } catch (error) {
       console.error("Error al actualizar producto:", error);
       res.status(500).json({ error: "Error al actualizar producto" });
   }
 };
-
