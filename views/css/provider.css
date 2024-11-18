@@ -5,57 +5,82 @@ body {
     display: flex;
     margin: 0;
   }
-  
-  .navbar {
-    width: 200px;
-    height: 100vh;
-    background: linear-gradient(180deg, #164A41 0%, #326148 50%, #9DC88D 100%);
-    padding: 20px;
-    color: white;
-  }
-  
-  .navbar-logo {
-    font-size: 24px;
+
+  .provider-container h2 {
+    font-size: 32px;
     font-weight: 700;
-    text-align: center;
-    margin-bottom: 20px;
+    color: #164A41;
   }
   
-  .navbar-menu ul {
-    list-style-type: none;
-    padding: 0;
+  /* Estilos de los párrafos */
+  .provider-container p {
+    font-size: 18px;
+    color: #326148;
   }
+  /* Contenedor de iconos */
+.icon-container {
+  position: absolute; /* Permite posicionar el contenedor de iconos */
+  top: 40px; /* Espacio desde la parte superior */
+  right: 40px; /* Espacio desde la derecha */
+  display: flex; /* Usar flexbox para los iconos */
+  gap: 15px; /* Espaciado entre los iconos */
+}
+
+/* Estilos para los iconos */
+.icon {
+  text-decoration: none; /* Sin subrayado */
+  color: #333; /* Color de los iconos */
+  font-size: 24px; /* Tamaño de los iconos */
+  transition: color 0.3s; /* Transición suave para el color */
+}
+
+.icon:hover {
+  color: #ffcc00; /* Color al pasar el mouse */
+}
+
+.dropdown {
+  display: none; /* Oculta el menú por defecto */
+  position: absolute; /* Posiciona el menú relativo al contenedor del icono */
+  top: 40px; /* Ajusta la posición respecto al icono de usuario */
+  right: 0; /* Alinea el menú con el lado derecho */
+  background-color: white; /* Color de fondo del menú */
+  border: 1px solid #ccc; /* Borde del menú */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra del menú */
+  z-index: 1000; /* Asegura que el menú esté encima de otros elementos */
+}
+
+/* Estilos para los elementos del menú desplegable */
+.dropdown-item {
+  display: block; /* Hace que los elementos ocupen todo el ancho */
+  padding: 10px 20px; /* Espaciado alrededor del texto */
+  text-decoration: none; /* Sin subrayado */
+  color: #333; /* Color del texto */
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0; /* Color de fondo al pasar el mouse */
+}
   
-  .navbar-menu ul li {
-    margin: 15px 0;
-    text-align: center;
-  }
-  
-  .navbar-menu ul li a {
-    color: white;
-    font-size: 24px;
-    text-decoration: none;
-  }
-  
-  .navbar-menu ul li a:hover {
-    color: #9DC88D;
-  }
-  
-  .inventory-container {
-    padding: 40px;
-    width: 100%;
-  }
-  
-  .inventory-container h2 {
+   
+  .provider-container h2 {
     font-size: 32px;
     font-weight: 700;
     color: #164A41;
     margin-bottom: 20px;
   }
+  .provider-container{
+    padding: 40px;
+    width: auto;
+  }
   
   table {
     width: 100%;
     border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   table th, table td {
@@ -67,6 +92,7 @@ body {
   table th {
     font-weight: 700;
     color: #164A41;
+    background-color: #f9f9f9;
   }
   
   table td {
@@ -90,10 +116,13 @@ body {
   margin: 5% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 90%;
-  max-width: 400px; /* Ajusta el ancho máximo del modal */
+  width: 90%; /* Ajuste ancho al 90% de la pantalla */
+  max-width: 500px; /* Ancho máximo para pantallas más grandes */
+  min-width: 300px; /* Ancho mínimo para evitar que sea demasiado pequeño */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow-y: auto; /* Permite el scroll en caso de que el contenido sea largo */
+  max-height: 90vh; /* Limita la altura máxima al 90% de la pantalla */
 }
 
 .form-container label {
