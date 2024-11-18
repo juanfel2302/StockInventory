@@ -173,10 +173,21 @@ class Product {
             );
         });
     }
-    
-    
+    static getExpiringProducts(days) {
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT * FROM productos
+                WHERE DATEDIFF(fecha_caducidad, CURDATE()) <= ? AND DATEDIFF(fecha_caducidad, CURDATE()) >= 0
+            `;
+            connection.query(query, [days], (err, results) => {
+                if (err) reject(err);
+                resolve(results);
+            });
+        });
+    }
 }
     
+
 
 
 module.exports = Product;
