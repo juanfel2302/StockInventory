@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificaciones - Stock Inventory</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/notifications.css">
+  <link rel="stylesheet" href="css/navbar.css">
+
+  
+
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-logo">
+        <h2>Stock Inventory</h2>
+    </div>
+    <div class="navbar-menu">
+        <ul>
+            <li>
+                <a href="/home"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            </li>
+            <li>
+                <a href="/inventory"><i class="fas fa-box"></i><span>Inventario</span></a>
+            </li>
+            <li>
+                <a href="/provider"><i class="fas fa-truck"></i><span>Proveedores</span></a>
+            </li>
+            <li>
+                <a href="/users"><i class="fas fa-users"></i><span>Usuarios</span></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+  <!-- Contenedor principal de Notificaciones -->
+  <div class="notifications-container">
+    <div class="header">
+      <h2>Notificaciones</h2>
+      <button class="mark-all-read">Marcar todas como leídas</button>
+    </div>
+    <div class="notifications-list">
+      <div class="notification-item">
+        <i class="fas fa-exclamation-circle notification-icon"></i>
+        <p>Producto "Arroz" está bajo en inventario.</p>
+        <span class="notification-time">Hace 2 horas</span>
+      </div>
+      <div class="notification-item">
+        <i class="fas fa-check-circle notification-icon"></i>
+        <p>Pedido de "Harina" recibido exitosamente.</p>
+        <span class="notification-time">Hace 1 día</span>
+      </div>
+      <div class="notification-item">
+        <i class="fas fa-user-plus notification-icon"></i>
+        <p>Nuevo proveedor "Distribuciones XYZ" añadido.</p>
+        <span class="notification-time">Hace 3 días</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/notifications.js"></script>
+</body>
+</html>
