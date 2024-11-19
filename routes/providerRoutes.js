@@ -1,23 +1,14 @@
-// routes/providerRoutes.js
 const express = require('express');
 const providerController = require('../controllers/providerController');
-const isAuthenticated = require('../middleware/authMiddleware'); // Asegúrate de que esta ruta es correcta
+const { isAuthenticated, isActiveUser } = require('../middleware/authMiddleware'); // Importar middlewares necesarios
 
 const router = express.Router();
 
-// Ruta para obtener todos los proveedores
-router.get('/', isAuthenticated, providerController.getAllProviders);
-
-// Ruta para obtener un proveedor por ID
-router.get('/:id', providerController.getProviderById);
-
-// Ruta para crear un nuevo proveedor
-router.post('/', providerController.createProvider);
-
-// Ruta para actualizar un proveedor por ID
-router.put('/:id', providerController.updateProvider);
-
-// Ruta para eliminar un proveedor por ID
-router.delete('/:id', providerController.deleteProvider);
+// Rutas protegidas para los proveedores
+router.get('/', isAuthenticated, isActiveUser, providerController.getAllProviders); // Obtener todos los proveedores
+router.get('/:id', isAuthenticated, isActiveUser, providerController.getProviderById); // Obtener un proveedor por ID
+router.post('/', isAuthenticated, isActiveUser, providerController.createProvider); // Crear un nuevo proveedor (requiere admin)
+router.put('/:id', isAuthenticated, isActiveUser, providerController.updateProvider); // Actualizar un proveedor por ID (requiere admin)
+router.delete('/:id', isAuthenticated, isActiveUser, providerController.deleteProvider); // Eliminar un proveedor por ID (requiere admin)
 
 module.exports = router;

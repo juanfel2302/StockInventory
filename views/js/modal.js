@@ -101,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
         exitTableBody.appendChild(row);
     }
     
+    
       
     document.getElementById("registerExitForm").onsubmit = async function(event) {
         event.preventDefault();

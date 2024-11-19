@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController'); // Asegúrate de que esta ruta sea correcta
-const isAuthenticated = require('../middleware/authMiddleware'); 
+const userController = require('../controllers/userController');
+const { isAuthenticated, isAdmin, isActiveUser } = require('../middleware/authMiddleware'); // Asegúrate de que esta ruta sea correcta
 
-// Rutas para los usuarios
-router.post('/', isAuthenticated, userController.createUser); // Crear un nuevo usuario
-router.get('/', isAuthenticated, userController.getAllUsers); // Obtener todos los usuarios
-router.get('/:id', userController.getUserById); // Obtener un usuario por ID
-router.put('/:id', userController.updateUser); // Actualizar un usuario
-router.delete('/:id', userController.deleteUser); // Eliminar un usuario
+// Rutas protegidas para los usuarios
+router.post('/', isAuthenticated, isActiveUser, isAdmin, userController.createUser);
+router.get('/', isAuthenticated, isActiveUser, isAdmin, userController.getAllUsers);
+router.get('/:id', isAuthenticated, isActiveUser, userController.getUserById); // Obtener usuario por ID (sin requerir admin)
+router.put('/:id', isAuthenticated, isActiveUser, isAdmin, userController.updateUser);
+router.delete('/:id', isAuthenticated, isActiveUser, isAdmin, userController.deleteUser);
 
 module.exports = router;

@@ -1,12 +1,14 @@
 const express = require('express');
 const productController = require('../controllers/productoControlador');
-const isAuthenticated = require('../middleware/authMiddleware'); // Asegúrate de que esta ruta es correcta
+const { isAuthenticated, isActiveUser } = require('../middleware/authMiddleware'); // Actualizar importaciones
+
 const router = express.Router();
 
-// Protege la ruta de productos con el middleware `isAuthenticated`
-router.get('/', isAuthenticated, productController.getAllProducts);
-router.post('/', isAuthenticated, productController.createProduct);
-router.put('/:id_producto', isAuthenticated, productController.updateProduct);
-router.get('/filter', isAuthenticated, productController.filterProducts);
+// Proteger todas las rutas de productos
+router.get('/', isAuthenticated, isActiveUser, productController.getAllProducts);
+router.post('/', isAuthenticated, isActiveUser, productController.createProduct);
+router.put('/:id_producto', isAuthenticated, isActiveUser, productController.updateProduct);
+router.get('/filter', isAuthenticated, isActiveUser, productController.filterProducts);
+router.post('/pdf', isAuthenticated, isActiveUser, productController.generatePDF);
 
 module.exports = router;

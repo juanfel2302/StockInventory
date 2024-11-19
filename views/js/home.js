@@ -57,3 +57,53 @@ document.addEventListener('DOMContentLoaded', async function() {
         window.location.href = '/notification.html'; // Redirige a la página de notificaciones
     });
 });
+
+document.addEventListener('DOMContentLoaded', async function () {
+    const modal = document.createElement('div');
+    modal.id = 'error-modal';
+    modal.className = 'modal';
+    modal.style.display = 'none';
+  
+    const modalContent = document.createElement('div');
+    modalContent.className = 'modal-content';
+  
+    const closeModal = document.createElement('span');
+    closeModal.className = 'close';
+    closeModal.textContent = '×';
+    closeModal.onclick = function () {
+      modal.style.display = 'none';
+    };
+  
+    const modalMessage = document.createElement('p');
+    modalMessage.id = 'modal-message';
+  
+    modalContent.appendChild(closeModal);
+    modalContent.appendChild(modalMessage);
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+  
+    const redirectToHome = (message) => {
+      modalMessage.textContent = message;
+      modal.style.display = 'block';
+      setTimeout(() => {
+        window.location.href = '/home';
+      }, 3000);
+    };
+  
+    // Verificar si se accedió a una ruta protegida
+    try {
+      const response = await fetch(window.location.href, { method: 'GET' });
+  
+      if (!response.ok) {
+        const result = await response.json();
+        if (response.status === 403) {
+          redirectToHome(result.error || 'Acceso denegado.');
+        } else {
+          console.error('Error desconocido:', result.error);
+        }
+      }
+    } catch (error) {
+      console.error('Error verificando el acceso:', error);
+      redirectToHome('Error al conectar con el servidor.');
+    }
+  });

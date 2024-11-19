@@ -88,3 +88,76 @@ async function loadSelectOptions() {
       console.error("Error al cargar opciones del selector:", error);
   }
 }
+
+document.getElementById('exportPDF').addEventListener('click', async () => {
+  // Obtener los datos visibles en la tabla
+  const tableRows = Array.from(document.querySelectorAll('#inventoryTable tr'));
+  const visibleData = tableRows.map(row => {
+    const cells = row.querySelectorAll('td');
+    if (cells.length === 0) return null; // Filtrar filas vacías
+    return {
+        nombre: cells[0]?.innerText || 'N/A',
+        precio: cells[1]?.innerText || 'N/A',
+        categoria: cells[2]?.innerText || 'N/A',
+        stock: cells[3]?.innerText || 'N/A',
+        stock_minimo: cells[4]?.innerText || 'N/A',
+        estado: cells[5]?.innerText || 'N/A',
+        proveedor: cells[6]?.innerText || 'N/A',
+        fecha_caducidad: cells[7]?.innerText || 'N/A'
+    };
+}).filter(Boolean); // Remover filas nulas
+
+
+  try {
+      const response = await fetch('/api/products/pdf', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ data: visibleData })
+      });
+
+      if (response.ok) {
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `reporte_inventario_${new Date().toISOString().split('T')[0]}.pdf`;
+          a.click();
+      } else {
+          console.error('Error al generar el PDF:', await response.text());
+      }
+  } catch (error) {
+      console.error('Error al exportar a PDF:', error);
+  }
+});
+
+
+
+document.getElementById("exportCSV").addEventListener("click", () => {
+  const tableData = getTableData(); // Obtén los datos actuales de la tabla
+  const currentDate = `Fecha de creación: ${new Date().toLocaleString()}`;
+  const csvContent =
+      "data:text/csv;charset=utf-8," +
+      `${currentDate}\n` + // Añade la fecha al inicio del CSV
+      tableData.map((row) => row.join(",")).join("\n");
+
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", `inventario_${new Date().toISOString().split('T')[0]}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+});
+
+
+// Función para obtener los datos de la tabla
+function getTableData() {
+  const rows = document.querySelectorAll("#inventoryTable tr");
+  return Array.from(rows).map((row) =>
+    Array.from(row.querySelectorAll("td")).map((cell) => cell.textContent)
+  );
+}
+
+console.log(visibleData); // Asegúrate de que los datos sean correctos antes de enviarlos

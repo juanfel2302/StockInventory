@@ -10,10 +10,9 @@ const providerRoutes = require('./routes/providerRoutes'); // Asegúrate de que 
 const userRoutes = require('./routes/userRoutes');
 const movimientoRoutes = require('./routes/movimientoRoutes'); // Import the route
 const notificationRoutes = require('./routes/notificationRoutes');
-require('./cron/checkExpirations');
-
 const app = express();
 const port = process.env.PORT || 3000;
+const { isAuthenticated, isAdmin, isActiveUser } = require('./middleware/authMiddleware');
 
 // Middleware para manejar JSON y formularios
 app.use(express.json());

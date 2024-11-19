@@ -155,7 +155,7 @@ class Product {
     }
     static update(id_producto, data) {
         return new Promise((resolve, reject) => {
-            const { nombre, codigo_barras, id_categoria, precio, stock, stock_minimo, id_proveedor, fecha_caducidad } = data;
+            const { nombre, codigo_barras, id_categoria, precio, stock_minimo, id_proveedor, fecha_caducidad } = data;
     
             const query = `
                 UPDATE productos 
@@ -164,16 +164,17 @@ class Product {
                     codigo_barras = ?, 
                     id_categoria = ?, 
                     precio = ?, 
-                    stock = ?, 
                     stock_minimo = ?, 
                     id_proveedor = ?, 
                     fecha_caducidad = ?
                 WHERE id_producto = ?
             `;
     
+            console.log("Ejecutando query para actualización:", query);
+    
             connection.query(
                 query,
-                [nombre, codigo_barras, id_categoria, precio, stock, stock_minimo, id_proveedor, fecha_caducidad || null, id_producto],
+                [nombre, codigo_barras, id_categoria, precio, stock_minimo, id_proveedor, fecha_caducidad || null, id_producto],
                 (err, results) => {
                     if (err) {
                         console.error("Error al actualizar producto:", err);
@@ -183,9 +184,9 @@ class Product {
                 }
             );
         });
-    
     }
     
+
     static getExpiringProducts(days) {
         return new Promise((resolve, reject) => {
             const query = `

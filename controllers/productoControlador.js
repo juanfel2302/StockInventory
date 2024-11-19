@@ -1,5 +1,7 @@
 // controllers/productoControlador.js
 const Product = require('../models/Product');
+const PDFDocument = require('pdfkit');
+const { Table } = require('pdfkit-table');
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -41,17 +43,109 @@ exports.filterProducts = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
   try {
-      const { id_producto } = req.params;
-      const { nombre, codigo_barras, id_categoria, precio, stock, stock_minimo, id_proveedor, fecha_caducidad } = req.body;
+      console.log("Datos recibidos en el backend (antes de procesar):", req.body);
 
-      if (!id_producto || !nombre || !id_categoria || !precio || !stock || !stock_minimo || !id_proveedor) {
-          return res.status(400).json({ error: 'Todos los campos obligatorios deben completarse.' });
+      const { id_producto } = req.params;
+      const { nombre, codigo_barras, id_categoria, precio, stock_minimo, id_proveedor, fecha_caducidad } = req.body;
+
+      // Validación: Excluir stock
+      if (!id_producto || !nombre || !id_categoria || !precio || !stock_minimo || !id_proveedor) {
+          console.error("Campos obligatorios faltantes.");
+          return res.status(400).json({ error: "Todos los campos obligatorios deben completarse, excepto stock." });
       }
 
-      const result = await Product.update(id_producto, req.body);
+      const sanitizedData = {
+          nombre,
+          codigo_barras,
+          id_categoria: parseInt(id_categoria, 10),
+          precio: parseFloat(precio),
+          stock_minimo: parseInt(stock_minimo, 10),
+          id_proveedor: parseInt(id_proveedor, 10),
+          fecha_caducidad,
+      };
+
+      console.log("Datos procesados para actualización:", sanitizedData);
+
+      const result = await Product.update(id_producto, sanitizedData);
       res.json({ message: "Producto actualizado exitosamente", result });
   } catch (error) {
       console.error("Error al actualizar producto:", error);
       res.status(500).json({ error: "Error al actualizar producto" });
   }
 };
+exports.generatePDF = async (req, res) => {
+  try {
+      const { data } = req.body;
+
+      if (!data || !Array.isArray(data) || data.length === 0) {
+          return res.status(400).json({ error: 'No hay datos para generar el PDF' });
+      }
+
+      const doc = new PDFDocument({ margin: 30 });
+      const filename = `reporte_inventario_${new Date().toISOString().split('T')[0]}.pdf`;
+
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.setHeader('Content-Type', 'application/pdf');
+
+      doc.pipe(res);
+
+      // Título
+      doc.fontSize(18).text('Reporte de Inventario', { align: 'center' });
+      doc.fontSize(12).text(`Fecha de generación: ${new Date().toLocaleString()}`, { align: 'center' });
+      doc.moveDown(2);
+
+      // Cabecera de la tabla
+      const tableHeader = ['Nombre', 'Precio', 'Categoría', 'Stock', 'Stock Mínimo', 'Estado', 'Proveedor', 'Fecha de Caducidad'];
+      const columnWidths = [100, 50, 100, 50, 80, 80, 100, 100];
+      const startY = doc.y + 10;
+
+      doc.fontSize(10).text('', 50, startY); // Margen inicial
+
+      // Dibujar la cabecera
+      tableHeader.forEach((header, i) => {
+          doc.text(header, 50 + columnWidths.slice(0, i).reduce((a, b) => a + b, 0), startY, {
+              width: columnWidths[i],
+              align: 'center',
+              underline: true,
+          });
+      });
+
+      // Dibujar los datos
+      let currentY = startY + 20;
+
+      data.forEach((product) => {
+          const row = [
+              product.nombre,
+              `$${Number(product.precio).toFixed(2)}`,
+              product.categoria,
+              product.stock,
+              product.stock_minimo,
+              product.estado,
+              product.proveedor,
+              product.fecha_caducidad,
+          ];
+
+          row.forEach((cell, i) => {
+              doc.text(cell, 50 + columnWidths.slice(0, i).reduce((a, b) => a + b, 0), currentY, {
+                  width: columnWidths[i],
+                  align: 'center',
+              });
+          });
+
+          currentY += 20;
+
+          // Salto de página si es necesario
+          if (currentY > doc.page.height - 50) {
+              doc.addPage();
+              currentY = 50;
+          }
+      });
+
+      // Finalizar el documento
+      doc.end();
+  } catch (error) {
+      console.error('Error al generar el PDF:', error);
+      res.status(500).json({ error: 'Error al generar el PDF' });
+  }
+};
+
