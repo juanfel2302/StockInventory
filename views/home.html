@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inicio - Stock Inventory</title>
+  <title>Dashboard - Stock Inventory</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="css/navbar.css">
@@ -13,52 +13,41 @@
   <!-- Navbar -->
   <div class="navbar">
     <div class="navbar-logo">
-        <h2>Stock Inventory</h2>
+      <h2>Stock Inventory</h2>
     </div>
     <div class="navbar-menu">
-        <ul>
-            <li>
-                <a href="/home"><i class="fas fa-home"></i><span>Dashboard</span></a>
-            </li>
-            <li>
-                <a href="/inventory"><i class="fas fa-box"></i><span>Inventario</span></a>
-            </li>
-            <li>
-                <a href="/provider"><i class="fas fa-truck"></i><span>Proveedores</span></a>
-            </li>
-            <li>
-                <a href="/users"><i class="fas fa-users"></i><span>Usuarios</span></a>
-            </li>
-        </ul>
+      <ul>
+        <li><a href="/home"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+        <li><a href="/inventory"><i class="fas fa-box"></i><span>Inventario</span></a></li>
+        <li><a href="/provider"><i class="fas fa-truck"></i><span>Proveedores</span></a></li>
+        <li><a href="/users"><i class="fas fa-users"></i><span>Usuarios</span></a></li>
+      </ul>
     </div>
-</div>
+  </div>
 
-
-  <!-- Contenido principal de Home -->
+  <!-- Contenido Principal -->
   <div class="home-container">
     <div class="header">
-      <h2>Abarrotes San Pedro Inventario</h2>
+      <h2>Abarrotes San Pedro - Dashboard</h2>
       <div class="icon-container">
         <a href="#" class="icon" id="userIcon"><i class="fas fa-user"></i></a>
         <div class="dropdown" id="userDropdown">
-            <a href="login.html" class="dropdown-item">Cerrar Sesión</a>
+          <a href="login.html" class="dropdown-item">Cerrar Sesión</a>
         </div>
         <a href="notification.html" class="icon"><i class="fas fa-bell"></i></a>
         <a href="#" class="icon"><i class="fas fa-ellipsis-v"></i></a>
       </div>
     </div>
-    <p>Desde aquí puedes navegar a las diferentes secciones del sistema usando la barra lateral.</p>
-    <p>Selecciona una opción en la barra para comenzar.</p>
 
-    <!-- Cuadros de texto en el centro de la pantalla -->
+    <!-- KPIs Principales -->
     <div class="stats-container">
       <div class="stat-box">
         <h3>Entradas Mensuales</h3>
-        <p>500</p>
+        <p><i class="fas fa-arrow-up"></i> 500</p>
       </div>
       <div class="stat-box">
         <h3>Salidas Mensuales</h3>
-        <p>300</p>
+        <p><i class="fas fa-arrow-down"></i> 300</p>
       </div>
       <div class="stat-box">
         <h3>Último Proveedor</h3>
@@ -66,33 +55,41 @@
       </div>
     </div>
 
-    <!-- Tabla de información urgente -->
-    <table class="urgent-stock-table">
-      <thead>
-        <tr>
-          <th>Producto</th>
-          <th>Categoría</th>
-          <th>Cantidad</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Arroz</td>
-          <td>Granos</td>
-          <td>15</td>
-        </tr>
-        <tr>
-          <td>Frijoles</td>
-          <td>Granos</td>
-          <td>10</td>
-        </tr>
-        <tr>
-          <td>Aceite</td>
-          <td>Aceites</td>
-          <td>5</td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Sección de Tareas Pendientes -->
+    <div class="tasks-container">
+      <h3>Tareas Pendientes</h3>
+      <ul class="task-list">
+        <li>
+          <i class="fas fa-check-circle complete"></i> Revisar stock de granos
+        </li>
+        <li>
+          <i class="fas fa-exclamation-circle warning"></i> Solicitar reposición de aceites
+        </li>
+        <li>
+          <i class="fas fa-calendar"></i> Programar reunión con proveedor ABC
+        </li>
+      </ul>
+    </div>
+
+    <!-- Últimos Movimientos -->
+    <div class="recent-activity">
+      <h3>Últimos Movimientos</h3>
+      <ul class="activity-list">
+        <li>Se agregó 50 unidades de *Arroz*. <span>Hace 1 hora</span></li>
+        <li>Se retiró 30 unidades de *Aceite*. <span>Hace 3 horas</span></li>
+        <li>Proveedor XYZ entregó 200 unidades de *Frijoles*. <span>Ayer</span></li>
+      </ul>
+    </div>
+
+    <!-- Productos con Bajo Stock -->
+    <div class="low-stock-container">
+      <h3>Productos con Bajo Stock</h3>
+      <ul class="low-stock-list">
+        <li><i class="fas fa-box"></i> Arroz: 15 unidades</li>
+        <li><i class="fas fa-box"></i> Frijoles: 10 unidades</li>
+        <li><i class="fas fa-box"></i> Aceite: 5 unidades</li>
+      </ul>
+    </div>
   </div>
 
   <script src="js/home.js"></script>

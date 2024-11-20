@@ -9,6 +9,8 @@ const stateRoutes = require('./routes/stateRoutes');
 const providerRoutes = require('./routes/providerRoutes'); // Asegúrate de que la ruta sea correcta
 const userRoutes = require('./routes/userRoutes');
 const movimientoRoutes = require('./routes/movimientoRoutes'); // Import the route
+const notificationRoutes = require('./routes/notificationRoutes');
+require('./cron/checkExpirations');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -94,6 +96,7 @@ app.use('/api/states', stateRoutes);
 app.use('/api/providers', providerRoutes);
 app.use('/api/users', userRoutes); // Ruta API para usuarios
 app.use('/api/movimientos', movimientoRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Iniciar el servidor
 app.listen(port, () => {

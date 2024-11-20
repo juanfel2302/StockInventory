@@ -62,7 +62,7 @@ class Product {
                     pr.nombre AS proveedor
                 FROM productos p
                 JOIN categorias c ON p.id_categoria = c.id_categoria
-                JOIN estados_producto e ON p.id_estado_producto l= e.id_estado_producto
+                JOIN estados_producto e ON p.id_estado_producto = e.id_estado_producto
                 JOIN proveedores pr ON p.id_proveedor = pr.id_proveedor
                 WHERE 1=1
             `;
@@ -110,7 +110,7 @@ class Product {
                     return reject(new Error(`Producto con ID ${id_producto} no encontrado.`));
                 }
     
-                const nuevoStock = product.stock + cantidad; // `cantidad` puede ser negativa para salidas
+                const nuevoStock = Number(product.stock) + Number(cantidad); // `cantidad` puede ser negativa para salidas
                 let nuevoEstado;
     
                 // Determinar el nuevo estado
@@ -153,8 +153,54 @@ class Product {
             });
         });
     }
+    static update(id_producto, data) {
+        return new Promise((resolve, reject) => {
+            const { nombre, codigo_barras, id_categoria, precio, stock, stock_minimo, id_proveedor, fecha_caducidad } = data;
+    
+            const query = `
+                UPDATE productos 
+                SET 
+                    nombre = ?, 
+                    codigo_barras = ?, 
+                    id_categoria = ?, 
+                    precio = ?, 
+                    stock = ?, 
+                    stock_minimo = ?, 
+                    id_proveedor = ?, 
+                    fecha_caducidad = ?
+                WHERE id_producto = ?
+            `;
+    
+            connection.query(
+                query,
+                [nombre, codigo_barras, id_categoria, precio, stock, stock_minimo, id_proveedor, fecha_caducidad || null, id_producto],
+                (err, results) => {
+                    if (err) {
+                        console.error("Error al actualizar producto:", err);
+                        reject(err);
+                    }
+                    resolve(results);
+                }
+            );
+        });
+    
+    }
+    
+    static getExpiringProducts(days) {
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT * FROM productos
+                WHERE DATEDIFF(fecha_caducidad, CURDATE()) <= ? AND DATEDIFF(fecha_caducidad, CURDATE()) >= 0
+            `;
+            connection.query(query, [days], (err, results) => {
+                if (err) reject(err);
+                resolve(results);
+            });
+        });
+    }
 }
     
+
 
 
 module.exports = Product;
