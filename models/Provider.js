@@ -58,6 +58,17 @@ class Provider {
       });
     });
   }
+  static getAllActive() {
+    return new Promise((resolve, reject) => {
+      const query = 'SELECT * FROM proveedores WHERE estado = 1';
+      connection.query(query, (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      });
+    });
+  }
 }
+
+
 
 module.exports = Provider;

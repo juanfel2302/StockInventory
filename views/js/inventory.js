@@ -54,40 +54,43 @@ function renderProducts(products) {
 
 // Cargar opciones de los selectores (categoría, estado, proveedor) en el modal de agregar producto
 async function loadSelectOptions() {
-  try {
+    try {
+      // Cargar categorías
       const categoryResponse = await fetch('/api/categories');
       const categories = await categoryResponse.json();
       const categorySelect = document.getElementById('productCategory');
       categories.forEach(category => {
-          const option = document.createElement('option');
-          option.value = category.id_categoria;
-          option.textContent = category.nombre_categoria;
-          categorySelect.appendChild(option);
+        const option = document.createElement('option');
+        option.value = category.id_categoria;
+        option.textContent = category.nombre_categoria;
+        categorySelect.appendChild(option);
       });
-
+  
+      // Cargar estados
       const stateResponse = await fetch('/api/states');
       const states = await stateResponse.json();
       const stateSelect = document.getElementById('productState');
       states.forEach(state => {
-          const option = document.createElement('option');
-          option.value = state.id_estado_producto;
-          option.textContent = state.nombre_estado;
-          stateSelect.appendChild(option);
+        const option = document.createElement('option');
+        option.value = state.id_estado_producto;
+        option.textContent = state.nombre_estado;
+        stateSelect.appendChild(option);
       });
-
-      const providerResponse = await fetch('/api/providers');
+  
+      // Cargar proveedores activos
+      const providerResponse = await fetch('/api/providers/active');
       const providers = await providerResponse.json();
       const providerSelect = document.getElementById('productProvider');
       providers.forEach(provider => {
-          const option = document.createElement('option');
-          option.value = provider.id_proveedor;
-          option.textContent = provider.nombre;
-          providerSelect.appendChild(option);
+        const option = document.createElement('option');
+        option.value = provider.id_proveedor;
+        option.textContent = provider.nombre;
+        providerSelect.appendChild(option);
       });
-  } catch (error) {
-      console.error("Error al cargar opciones del selector:", error);
+    } catch (error) {
+      console.error('Error al cargar opciones del selector:', error);
+    }
   }
-}
 
 document.getElementById('exportPDF').addEventListener('click', async () => {
   // Obtener los datos visibles en la tabla
@@ -161,3 +164,6 @@ function getTableData() {
 }
 
 console.log(visibleData); // Asegúrate de que los datos sean correctos antes de enviarlos
+console.log('Proveedores activos:', providers);
+
+

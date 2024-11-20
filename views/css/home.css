@@ -242,3 +242,34 @@ body {
 .test-dropdown .icon:hover {
   color: #ffcc00;
 }
+
+.faq-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+}
+
+.modal-content {
+  text-align: center;
+}
+
+.close {
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.faq-modal p {
+  margin: 0;
+  font-size: 16px;
+}

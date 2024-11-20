@@ -82,9 +82,9 @@
       <div class="faq">
         <h3>Preguntas Frecuentes</h3>
         <ul>
-          <li><a href="/faq#add-product">¿Cómo puedo agregar un producto nuevo?</a></li>
-          <li><a href="/faq#manage-providers">¿Cómo gestionar proveedores?</a></li>
-          <li><a href="/faq#forgot-password">¿Qué hacer si olvido mi contraseña?</a></li>
+          <li><a href="#" class="faq-link" data-answer="Para agregar un producto nuevo, navega a la sección de Inventario y utiliza el botón 'Añadir Producto'.">¿Cómo puedo agregar un producto nuevo?</a></li>
+          <li><a href="#" class="faq-link" data-answer="En la sección de Proveedores, puedes añadir o editar proveedores desde el menú de opciones.">¿Cómo gestionar proveedores?</a></li>
+          <li><a href="#" class="faq-link" data-answer="Es necesario contactar al administrador, o puedes enviarnos un mensaje por whatsapp haciendo clic en el icono">¿Qué hacer si olvido mi contraseña?</a></li>
         </ul>
       </div>
       <div class="contact">
@@ -98,8 +98,15 @@
       </div>
     </div>
   </footer>
+  <div id="faqModal" class="faq-modal">
+    <div class="modal-content">
+      <span class="close" id="closeFaqModal">&times;</span>
+      <p id="faqAnswer">Aquí aparecerá la respuesta a la pregunta seleccionada.</p>
+    </div>
 
   <script src="js/home.js"></script>
   <script src="js/test-dropdown.js" defer></script>
+  <script src="js/faq.js" defer></script>
+
 </body>
 </html>

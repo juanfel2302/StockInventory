@@ -70,39 +70,38 @@ document.addEventListener("DOMContentLoaded", function () {
 // Función para cargar las opciones en los select (categorías, proveedores, etc.)
 async function loadEditSelectOptions(productData) {
     try {
+        // Realizar fetch para categorías y proveedores activos
         const [categoriesResponse, providersResponse] = await Promise.all([
             fetch("/api/categories"),
-            fetch("/api/providers"),
+            fetch("/api/providers/active") // Usar la ruta de proveedores activos
         ]);
 
         if (!categoriesResponse.ok || !providersResponse.ok) {
-            throw new Error("Error al cargar las opciones para los select");
+            throw new Error("Error al cargar las opciones para los selectores");
         }
 
         const categories = await categoriesResponse.json();
-        console.log("Categorías cargadas:", categories); // <-- Log para verificar
         const providers = await providersResponse.json();
-        console.log("Proveedores cargados:", providers); // <-- Log para verificar
 
+        console.log("Categorías cargadas:", categories);
+        console.log("Proveedores activos cargados:", providers);
+
+        // Select de categorías
         const categorySelect = document.getElementById("editProductCategory");
-        const providerSelect = document.getElementById("editProductProvider");
-
-        // Limpiar los selects antes de llenarlos
-        categorySelect.innerHTML = "";
-        providerSelect.innerHTML = "";
-
-        // Llenar el select de categorías
+        categorySelect.innerHTML = ""; // Limpiar opciones existentes
         categories.forEach((category) => {
             const option = document.createElement("option");
             option.value = category.id_categoria;
-            option.textContent = category.nombre_categoria; // Asegúrate que coincide con el modelo
+            option.textContent = category.nombre_categoria;
             if (category.id_categoria == productData.id_categoria) {
                 option.selected = true;
             }
             categorySelect.appendChild(option);
         });
 
-        // Llenar el select de proveedores
+        // Select de proveedores activos
+        const providerSelect = document.getElementById("editProductProvider");
+        providerSelect.innerHTML = ""; // Limpiar opciones existentes
         providers.forEach((provider) => {
             const option = document.createElement("option");
             option.value = provider.id_proveedor;
@@ -113,6 +112,6 @@ async function loadEditSelectOptions(productData) {
             providerSelect.appendChild(option);
         });
     } catch (error) {
-        console.error("Error al cargar las opciones:", error);
+        console.error("Error al cargar opciones del selector:", error);
     }
 }

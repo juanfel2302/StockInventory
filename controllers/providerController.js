@@ -67,3 +67,15 @@ exports.deleteProvider = async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar el proveedor' });
   }
 };
+
+exports.getAllActiveProviders = async (req, res) => {
+  try {
+    console.log('Fetching active providers...'); // Log para verificar
+    const providers = await Provider.getAllActive();
+    res.json(providers);
+  } catch (error) {
+    console.error('Error al obtener proveedores activos:', error);
+    res.status(500).json({ error: 'Error al obtener proveedores activos' });
+  }
+};
+

@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const path = require('path');
 const session = require('express-session');
 const connection = require('./config/db'); // Asegúrate de que esta ruta es correcta
@@ -10,10 +11,9 @@ const providerRoutes = require('./routes/providerRoutes'); // Asegúrate de que 
 const userRoutes = require('./routes/userRoutes');
 const movimientoRoutes = require('./routes/movimientoRoutes'); // Import the route
 const notificationRoutes = require('./routes/notificationRoutes');
-const app = express();
 const port = process.env.PORT || 3000;
 const { isAuthenticated, isAdmin, isActiveUser } = require('./middleware/authMiddleware');
-
+const homeController = require('./controllers/homeController');
 // Middleware para manejar JSON y formularios
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -84,10 +84,11 @@ app.get('/notification', (req, res) => {
         res.redirect('/');
     }
 });
-
+app.get('/api/home', homeController.getHomeData); 
 
 
 // Rutas de API
+
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
@@ -96,7 +97,6 @@ app.use('/api/providers', providerRoutes);
 app.use('/api/users', userRoutes); // Ruta API para usuarios
 app.use('/api/movimientos', movimientoRoutes);
 app.use('/api/notifications', notificationRoutes);
-
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
