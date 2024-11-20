@@ -1,13 +1,25 @@
 body {
-  font-family: 'Inter', sans-serif;
   display: flex;
-  position: relative; /* Asegúrate de que el body tenga un contexto de posicionamiento */
+  flex-direction: column; /* Organización vertical: navbar, contenido, footer */
+  min-height: 100vh; /* Ocupa toda la altura del viewport */
+  margin-left: 60px;
+}
+/* Contenedor principal */
+.main-content {
+  margin-left: 60px; /* Compensa el espacio ocupado por la navbar */
+  flex: 1; /* Hace que ocupe todo el ancho disponible */
+  padding: 20px; /* Añade un espacio alrededor del contenido */
+  display: flex;
+  flex-direction: column; /* Alinea todo el contenido en columna */
 }
 
-/* Contenedor principal de la página de inicio */
+/* Contenedor de la página de inicio */
 .home-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 40px;
-  flex-grow: 1; /* Permite que el contenedor principal crezca */
+  background-color: #fff;
 }
 
 /* Estilos del encabezado */
@@ -57,7 +69,7 @@ body {
 
 /* Estilos para los elementos del menú desplegable */
 .dropdown-item {
-  display: block; /* Hace que los elementos ocupen todo el ancho */
+  display: none; /* Hace que los elementos ocupen todo el ancho */
   padding: 10px 20px; /* Espaciado alrededor del texto */
   text-decoration: none; /* Sin subrayado */
   color: #333; /* Color del texto */
@@ -66,12 +78,14 @@ body {
 .dropdown-item:hover {
   background-color: #f0f0f0; /* Color de fondo al pasar el mouse */
 }
+
 .stats-container {
   display: flex;
   justify-content: center;
   margin: 30px 0;
   gap: 20px;
 }
+
 .stat-box {
   background-color: #f5f5f5;
   padding: 20px;
@@ -80,22 +94,27 @@ body {
   width: 200px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 .urgent-stock-table {
   width: 80%;
   margin: 0 auto;
   border-collapse: collapse;
   margin-top: 20px;
 }
+
 .urgent-stock-table th, .urgent-stock-table td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
+
 .urgent-stock-table th {
   background-color: #4CAF50;
   color: white;
 }
+
 .modal {
+  display: none;
   position: fixed;
   z-index: 1000;
   left: 50%;
@@ -123,4 +142,103 @@ body {
 .modal p {
   margin: 0;
   font-size: 16px;
+}
+
+/* Estilo del footer */
+.footer {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: relative; /* Para que no se sobreponga al contenido */
+  bottom: 0;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+}
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.faq, .contact, .credits {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.faq ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.faq ul li a {
+  color: #333;
+  text-decoration: none;
+}
+
+.faq ul li a:hover {
+  text-decoration: underline;
+}
+
+.whatsapp-button {
+  background-color: #25d366;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.whatsapp-button:hover {
+  background-color: #1da851;
+}
+
+.credits {
+  text-align: center;
+  font-size: 12px;
+  color: #888;
+}
+
+.test-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.test-dropdown .dropdown {
+  display: none; /* Oculto por defecto */
+  position: absolute;
+  top: 40px; /* Ajusta la posición del dropdown */
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1000;
+  width: 150px;
+}
+
+.test-dropdown .dropdown a {
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+}
+
+.test-dropdown .dropdown a:hover {
+  background-color: #f0f0f0;
+}
+
+.test-dropdown .icon {
+  text-decoration: none;
+  color: #333;
+  font-size: 24px;
+}
+
+.test-dropdown .icon:hover {
+  color: #ffcc00;
 }

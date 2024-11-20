@@ -1,84 +1,84 @@
+/* General reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Inter', sans-serif;
+    overflow: hidden; /* Evita que aparezca un scroll horizontal por la navbar */
+
 }
 
+/* Configuración general del body */
 body {
     display: flex;
-    height: 100vh;
-}
-
+    flex-direction: row; /* Coloca la navbar y el contenido principal en línea */
+    margin: 0;
+    min-height: 100vh; /* Asegura que ocupe toda la altura del viewport */
+  }
+/* Navbar */
 .navbar {
-    width: 60px; /* Ancho inicial solo con iconos */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh; /* Asegura que ocupe toda la altura del viewport */
+    width: 60px; /* Ancho fijo inicial */
     background: linear-gradient(180deg, #164A41 0%, #326148 50%, #9DC88D 100%);
-    color: white;
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Alinear elementos al centro */
-    overflow: hidden; /* Evita que el contenido exceda la barra */
-    transition: width 0.3s ease; /* Transición suave para el ancho */
-}
+    z-index: 1; /* Coloca la navbar detrás del contenido si es necesario */
+    transition: width 0.3s ease; /* Efecto suave al expandirla */
+     /* Evita que aparezca un scroll horizontal por la navbar */
 
-.navbar:hover {
+  }
+  
+  
+  .navbar:hover {
     width: 220px; /* Ancho expandido al pasar el ratón */
-}
+  }
 
-.navbar-logo h2 {
-    color: #FFFFFF;
-    font-size: 1.2em; /* Ajusta el tamaño de la fuente aquí */
+  .navbar-logo h2 {
+    color: #ffffff;
+    font-size: 1.2em;
     margin-bottom: 1em;
-    font-weight: 600; /* Peso de la fuente para un texto más estilizado */
-    letter-spacing: 1px; /* Espaciado entre letras */
-    text-align: center; /* Centrar el título */
-}
-
-.navbar:hover .navbar-logo h2 {
-    opacity: 1; /* Mostrar el logo al hacer hover */
-}
-
-.navbar-menu {
-    width: 100%; /* Asegura que el menú ocupe el ancho completo */
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-align: center;
+    white-space: nowrap; /* Evita que el texto haga salto de línea */
+    overflow: hidden; /* Corta cualquier texto que no quepa */
+    text-overflow: ellipsis; /* Añade "..." si el texto es demasiado largo */
 }
 
 .navbar-menu ul {
     list-style-type: none;
+    margin: 0;
     padding: 0;
-    margin-top: 20px; /* Margen superior para separarlo del logo */
-    text-align: center; /* Centra el contenido dentro del ul */
+    width: 100%;
+    text-align: center;
 }
 
 .navbar-menu ul li {
-    color: white;
-    margin: 20px 0; /* Ajusta el margen para separarlos verticalmente */
-    text-decoration: none;
-    font-size: 1em; /* Ajusta el tamaño de la fuente aquí */
-    display: flex; /* Alinea el ícono y el texto en línea */
-    align-items: center; /* Centra verticalmente el contenido */
-   margin-left: 20px; /* Centra horizontalmente */
-    transition: color 0.3s; /* Suave transición del color */
+    margin: 20px 0;
 }
 
 .navbar-menu ul li a {
-    color: white;
     text-decoration: none;
-    font-size: 1.2em;
-    display: flex; /* Usar flexbox para el icono y el texto */
-    align-items: center; /* Alinear verticalmente */
-    justify-content: center; /* Alinear horizontalmente */
-    transition: margin-left 0.3s ease; /* Transición para el margen */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Asegura que el contenido esté alineado a la izquierda */
+    padding-left: 10px; /* Espacio entre el icono y el texto */
+    transition: all 0.3s ease;
+    overflow: hidden; /* Evita que los iconos se desborden */
 }
 
 .navbar-menu ul li span {
-    margin-left: 20px; /* Espaciado entre icono y texto */
-    opacity: 0; /* Ocultar texto inicialmente */
-    transition: opacity 0.3s ease; /* Transición para la opacidad */
+    margin-left: 15px;
+    opacity: 0;
+    white-space: nowrap; /* Evita saltos de línea */
+    overflow: hidden; /* Corta el texto que no quepa */
+    transition: opacity 0.3s ease, width 0.3s ease;
 }
 
 .navbar:hover ul li span {
-    opacity: 1; /* Mostrar el texto al hacer hover */
+    opacity: 1;
 }
 
 .navbar-menu ul li:hover {

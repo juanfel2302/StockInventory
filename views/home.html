@@ -8,93 +8,98 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/modal.css"> <!-- Archivo CSS para estilos del modal -->
 </head>
 <body>
   <!-- Navbar -->
   <div class="navbar">
     <div class="navbar-logo">
-        <h2>Stock Inventory</h2>
+      <h2>Stock Inventory</h2>
     </div>
     <div class="navbar-menu">
-        <ul>
-            <li>
-                <a href="/home"><i class="fas fa-home"></i><span>Dashboard</span></a>
-            </li>
-            <li>
-                <a href="/inventory"><i class="fas fa-box"></i><span>Inventario</span></a>
-            </li>
-            <li>
-                <a href="/provider"><i class="fas fa-truck"></i><span>Proveedores</span></a>
-            </li>
-            <li>
-                <a href="/users"><i class="fas fa-users"></i><span>Usuarios</span></a>
-            </li>
-        </ul>
+      <ul>
+        <li>
+          <a href="/home"><i class="fas fa-home"></i><span>Dashboard</span></a>
+        </li>
+        <li>
+          <a href="/inventory"><i class="fas fa-box"></i><span>Inventario</span></a>
+        </li>
+        <li>
+          <a href="/provider"><i class="fas fa-truck"></i><span>Proveedores</span></a>
+        </li>
+        <li>
+          <a href="/users"><i class="fas fa-users"></i><span>Usuarios</span></a>
+        </li>
+      </ul>
     </div>
-</div>
-
-
-  <!-- Contenido principal de Home -->
-  <div class="home-container">
-    <div class="header">
-      <h2>Abarrotes San Pedro Inventario</h2>
-      <div class="icon-container">
-        <a href="#" class="icon" id="userIcon"><i class="fas fa-user"></i></a>
-        <div class="dropdown" id="userDropdown">
-            <a href="login.html" class="dropdown-item">Cerrar Sesión</a>
-        </div>
-        <a href="notification.html" class="icon"><i class="fas fa-bell"></i></a>
-        <a href="#" class="icon"><i class="fas fa-ellipsis-v"></i></a>
-      </div>
-    </div>
-    <p>Desde aquí puedes navegar a las diferentes secciones del sistema usando la barra lateral.</p>
-    <p>Selecciona una opción en la barra para comenzar.</p>
-
-    <!-- Cuadros de texto en el centro de la pantalla -->
-    <div class="stats-container">
-      <div class="stat-box">
-        <h3>Entradas Mensuales</h3>
-        <p>500</p>
-      </div>
-      <div class="stat-box">
-        <h3>Salidas Mensuales</h3>
-        <p>300</p>
-      </div>
-      <div class="stat-box">
-        <h3>Último Proveedor</h3>
-        <p>Distribuidora XYZ</p>
-      </div>
-    </div>
-
-    <!-- Tabla de información urgente -->
-    <table class="urgent-stock-table">
-      <thead>
-        <tr>
-          <th>Producto</th>
-          <th>Categoría</th>
-          <th>Cantidad</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Arroz</td>
-          <td>Granos</td>
-          <td>15</td>
-        </tr>
-        <tr>
-          <td>Frijoles</td>
-          <td>Granos</td>
-          <td>10</td>
-        </tr>
-        <tr>
-          <td>Aceite</td>
-          <td>Aceites</td>
-          <td>5</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 
+  <!-- Contenedor principal -->
+  <div class="main-content">
+    <div class="home-container">
+      <div class="header">
+        <h2>Abarrotes San Pedro Inventario</h2>
+        <div class="icon-container">
+          <a href="#" class="icon" id="userIcon"><i class="fas fa-user"></i></a>
+          <a href="notification.html" class="icon"><i class="fas fa-bell"></i></a>
+          <a href="#" class="icon"><i class="fas fa-ellipsis-v"></i></a>
+        </div>
+      </div>
+      <p>Desde aquí puedes navegar a las diferentes secciones del sistema usando la barra lateral.</p>
+      <p>Selecciona una opción en la barra para comenzar.</p>
+
+      <!-- Cuadros de texto en el centro de la pantalla -->
+      <div class="stats-container">
+        
+        <div class="stat-box">
+          <h3>Total de Productos en Stock</h3>
+          <p id="total-stock">Cargando...</p>
+        </div>
+        <div class="stat-box">
+          <h3>Notificaciones Pendientes</h3>
+          <p id="pending-notifications">Cargando...</p>
+        </div>
+
+        
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de confirmación de cierre de sesión -->
+  <div id="logoutModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <p>¿Estás seguro de que deseas cerrar sesión?</p>
+      <button id="confirmLogout">Sí, cerrar sesión</button>
+      <button id="cancelLogout">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="faq">
+        <h3>Preguntas Frecuentes</h3>
+        <ul>
+          <li><a href="/faq#add-product">¿Cómo puedo agregar un producto nuevo?</a></li>
+          <li><a href="/faq#manage-providers">¿Cómo gestionar proveedores?</a></li>
+          <li><a href="/faq#forgot-password">¿Qué hacer si olvido mi contraseña?</a></li>
+        </ul>
+      </div>
+      <div class="contact">
+        <h3>¿Necesitas ayuda?</h3>
+        <a href="https://wa.me/526621806088?text=Hola,%20necesito%20ayuda%20con%20el%20sistema%20de%20inventario.">
+          <button class="whatsapp-button"><i class="fab fa-whatsapp"></i> Contáctanos por WhatsApp</button>
+        </a>
+      </div>
+      <div class="credits">
+        <p>&copy; 2024 Abarrotes San Pedro Inventario. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
   <script src="js/home.js"></script>
+  <script src="js/test-dropdown.js" defer></script>
 </body>
 </html>

@@ -74,6 +74,16 @@ class Notificacion {
             });
         });
     }
+    static getPendingNotifications() {
+        return new Promise((resolve, reject) => {
+            const query = 'SELECT COUNT(*) AS count FROM notificaciones WHERE leida = 0';
+            connection.query(query, (err, results) => {
+                if (err) reject(err);
+                resolve(results);
+            });
+        });
+    }
 }
+
 
 module.exports = Notificacion;
