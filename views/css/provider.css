@@ -213,3 +213,13 @@ table tr:hover {
 .submit-button:hover {
   background-color: #45a049;
 }
+
+#providerStatus{
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
