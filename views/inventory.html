@@ -157,27 +157,38 @@
   </div>
 </div>
 
+<!-- Modal para Registrar Entrada de Stock -->
 <div id="addStockModal" class="modal">
   <div class="modal-content">
-      <span id="closeAddStockModal" class="close">&times;</span>
-      <h2>Registrar Entrada de Stock</h2>
-      <form id="addStockForm">
-          <div class="form-group">
-              <label for="stockProductSelect">Producto:</label>
-              <select id="stockProductSelect" name="id_producto" required></select>
-          </div>
-          <div class="form-group">
-              <label for="stockQuantity">Cantidad:</label>
-              <input type="number" id="stockQuantity" name="cantidad" min="1" required>
-          </div>
-          <div class="form-group">
-              <label for="stockReason">Motivo:</label>
-              <input type="text" id="stockReason" name="motivo" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Registrar Entrada</button>
-      </form>
+    <span id="closeAddStockModal" class="close">&times;</span>
+    <h2>Registrar Entrada de Stock</h2>
+    <form id="addStockForm">
+        <div class="form-group">
+            <label for="searchProductName">Buscar por Nombre:</label>
+            <input type="text" id="searchProductName" placeholder="Buscar producto por nombre...">
+        </div>
+        <div class="form-group">
+            <label for="searchProductBarcode">Buscar por Código de Barras:</label>
+            <input type="text" id="searchProductBarcode" placeholder="Buscar producto por código de barras...">
+        </div>
+        <div class="form-group">
+            <label for="stockProductSelect">Producto:</label>
+            <select id="stockProductSelect" name="id_producto" required></select>
+        </div>
+        <div class="form-group">
+            <label for="stockQuantity">Cantidad:</label>
+            <input type="number" id="stockQuantity" name="cantidad" min="1" required>
+        </div>
+        <div class="form-group">
+            <label for="stockReason">Motivo:</label>
+            <input type="text" id="stockReason" name="motivo" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar Entrada</button>
+    </form>
   </div>
 </div>
+
+
 
 
 <!-- Modal de Filtro -->
@@ -186,6 +197,8 @@
     <span class="close-button" id="closeFilterModal">&times;</span>
     <h2>Filtrar Productos</h2>
     <form id="filterForm">
+      <label for="searchProductFilter">Buscar Producto:</label>
+      <input type="text" id="searchProductFilter" placeholder="Buscar producto...">
       <label for="categoryFilter">Categoría:</label>
       <select id="categoryFilter">
         <option value="">Todas</option>
@@ -211,6 +224,14 @@
     <span class="close-button" id="closeExitModal">&times;</span>
     <h2>Registrar Salidas de Inventario</h2>
     <form id="registerExitForm" class="form-container">
+      <div class="form-group">
+        <label for="searchProductExit">Buscar por Nombre:</label>
+        <input type="text" id="searchProductExit" placeholder="Buscar producto por nombre...">
+      </div>
+      <div class="form-group">
+        <label for="searchProductExitBarcode">Buscar por Código de Barras:</label>
+        <input type="text" id="searchProductExitBarcode" placeholder="Buscar producto por código de barras...">
+      </div>
       <table id="exitTable">
         <thead>
           <tr>
@@ -229,6 +250,7 @@
     </form>
   </div>
 </div>
+
 
 
 

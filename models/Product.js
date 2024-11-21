@@ -21,7 +21,7 @@ class Product {
                 JOIN estados_producto e ON p.id_estado_producto = e.id_estado_producto
                 JOIN proveedores pr ON p.id_proveedor = pr.id_proveedor;
             `;
-            
+
             connection.query(query, (err, results) => {
                 if (err) {
                     reject(err);
@@ -92,27 +92,27 @@ class Product {
     }
     static getById(id_producto) {
         return new Promise((resolve, reject) => {
-          const query = "SELECT * FROM productos WHERE id_producto = ?";
-          connection.query(query, [id_producto], (err, results) => {
-            if (err) reject(err);
-            else resolve(results[0]); // Return the first (and only) result
-          });
+            const query = "SELECT * FROM productos WHERE id_producto = ?";
+            connection.query(query, [id_producto], (err, results) => {
+                if (err) reject(err);
+                else resolve(results[0]); // Return the first (and only) result
+            });
         });
-      }
-    
-      static updateStockAndState(id_producto, cantidad) {
+    }
+
+    static updateStockAndState(id_producto, cantidad) {
         return new Promise(async (resolve, reject) => {
             try {
                 // Primero, obtenemos el producto actual
                 const product = await this.getById(id_producto);
-    
+
                 if (!product) {
                     return reject(new Error(`Producto con ID ${id_producto} no encontrado.`));
                 }
-    
+
                 const nuevoStock = Number(product.stock) + Number(cantidad); // `cantidad` puede ser negativa para salidas
                 let nuevoEstado;
-    
+
                 // Determinar el nuevo estado
                 if (nuevoStock === 0) {
                     nuevoEstado = 4; // 'Sin Stock'
@@ -121,7 +121,7 @@ class Product {
                 } else {
                     nuevoEstado = 2; // 'En Stock'
                 }
-    
+
                 // Actualizar el producto
                 const query = `
                     UPDATE productos 
@@ -156,7 +156,7 @@ class Product {
     static update(id_producto, data) {
         return new Promise((resolve, reject) => {
             const { nombre, codigo_barras, id_categoria, precio, stock_minimo, id_proveedor, fecha_caducidad } = data;
-    
+
             const query = `
                 UPDATE productos 
                 SET 
@@ -169,9 +169,9 @@ class Product {
                     fecha_caducidad = ?
                 WHERE id_producto = ?
             `;
-    
+
             console.log("Ejecutando query para actualización:", query);
-    
+
             connection.query(
                 query,
                 [nombre, codigo_barras, id_categoria, precio, stock_minimo, id_proveedor, fecha_caducidad || null, id_producto],
@@ -185,7 +185,7 @@ class Product {
             );
         });
     }
-    
+
 
     static getExpiringProducts(days) {
         return new Promise((resolve, reject) => {
@@ -201,15 +201,37 @@ class Product {
     }
     static getTotalStock() {
         return new Promise((resolve, reject) => {
-          const query = 'SELECT SUM(stock) AS total_stock FROM productos';
-          connection.query(query, (err, results) => {
-            if (err) reject(err);
-            resolve(results);
-          });
+            const query = 'SELECT SUM(stock) AS total_stock FROM productos';
+            connection.query(query, (err, results) => {
+                if (err) reject(err);
+                resolve(results);
+            });
         });
-      }
+    }
+    static search(query, searchBy = "nombre") {
+        return new Promise((resolve, reject) => {
+            const sql = `
+                SELECT 
+                    p.id_producto, 
+                    p.nombre, 
+                    p.codigo_barras, 
+                    p.precio, 
+                    c.nombre_categoria AS categoria, 
+                    p.stock 
+                FROM productos p
+                JOIN categorias c ON p.id_categoria = c.id_categoria
+                WHERE ${searchBy === "codigo_barras" ? "p.codigo_barras" : "p.nombre"} LIKE ?
+            `;
+            const searchQuery = `%${query}%`;
+            connection.query(sql, [searchQuery], (err, results) => {
+                if (err) reject(err);
+                else resolve(results);
+            });
+        });
     }
     
+}
+
 
 
 

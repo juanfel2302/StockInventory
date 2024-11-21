@@ -301,6 +301,13 @@ table td {
   border-bottom: 1px solid #ddd;
 }
 
+.error-message {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 5px;
+  display: block;
+}
+
 .add-row-button, .removeRowButton {
   background-color: #f44336;
   color: white;

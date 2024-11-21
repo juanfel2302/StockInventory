@@ -10,5 +10,6 @@ router.post('/', isAuthenticated, isActiveUser, productController.createProduct)
 router.put('/:id_producto', isAuthenticated, isActiveUser, productController.updateProduct);
 router.get('/filter', isAuthenticated, isActiveUser, productController.filterProducts);
 router.post('/pdf', isAuthenticated, isActiveUser, productController.generatePDF);
+router.get('/search', isAuthenticated, isActiveUser, productController.searchProducts);
 
 module.exports = router;

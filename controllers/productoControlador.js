@@ -73,6 +73,25 @@ exports.updateProduct = async (req, res) => {
       res.status(500).json({ error: "Error al actualizar producto" });
   }
 };
+
+exports.searchProducts = async (req, res) => {
+  try {
+      const query = req.query.q || '';
+      const searchBy = req.query.by || 'nombre'; // Default: buscar por nombre
+
+      if (!query) {
+          return res.status(400).json({ error: 'Debe proporcionar un término de búsqueda.' });
+      }
+
+      const products = await Product.search(query, searchBy);
+      res.json(products);
+  } catch (error) {
+      console.error('Error al buscar productos:', error);
+      res.status(500).json({ error: 'Error al buscar productos.' });
+  }
+};
+
+
 exports.generatePDF = async (req, res) => {
   try {
       const { data } = req.body;
