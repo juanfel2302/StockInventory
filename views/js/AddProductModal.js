@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
+    
     addProductForm.onsubmit = async function (event) {
         event.preventDefault();
 
@@ -30,10 +31,13 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!response.ok) throw new Error("Error al agregar el producto");
 
             addProductModal.style.display = "none";
+            showToast("Producto agregado exitosamente!", "success");
             location.reload();
         } catch (error) {
             console.error("Error al guardar el producto:", error);
+            showToast("Error al agregar el producto.", "error");
         }
     };
+  
 });
 

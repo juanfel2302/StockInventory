@@ -46,7 +46,10 @@ document.addEventListener("DOMContentLoaded", function () {
           }
       } catch (error) {
           console.error("Error cargando productos:", error);
+          showToast("Error al cargar productos.", "error");
+
       }
+      
   }
 
   // Agregar una nueva fila al modal
@@ -144,12 +147,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
           if (response.ok) {
               registerExitModal.style.display = "none";
+              showToast("Salida registrada exitosamente!", "success");
+
               location.reload(); // Refrescar para reflejar cambios
           } else {
               console.error("Error registrando salidas");
+              
           }
       } catch (error) {
           console.error("Error en la solicitud:", error);
+          showToast("Error al registrar la salida.", "error");
+
       }
   };
 });

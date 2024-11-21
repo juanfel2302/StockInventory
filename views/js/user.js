@@ -11,12 +11,20 @@ document.addEventListener("DOMContentLoaded", async function () {
             row.innerHTML = `
                 <td>${user.id_usuario}</td>
                 <td>${user.nombre_usuario}</td>
-                <td>${user.contrasena}</td>
+                <td>••••••</td> <!-- Mostrar texto fijo en lugar del hash -->
                 <td>${user.es_administrador === "true" || user.es_administrador ? 'Sí' : 'No'}</td>
                 <td>${user.estado === "true" || user.estado ? 'Activo' : 'Inactivo'}</td>
                 <td>
-                    <button class="edit-button" data-id="${user.id_usuario}" data-nombre="${user.nombre_usuario}" data-contrasena="${user.contrasena}" data-administrador="${user.es_administrador}" data-estado="${user.estado}">
+                    <button class="edit-button" 
+                            data-id="${user.id_usuario}" 
+                            data-nombre="${user.nombre_usuario}" 
+                            data-contrasena="${user.contrasena}" 
+                            data-administrador="${user.es_administrador}" 
+                            data-estado="${user.estado}">
                         <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete-button" data-id="${user.id_usuario}">
+                        <i class="fas fa-trash"></i>
                     </button>
                 </td>
             `;
@@ -122,4 +130,22 @@ document.addEventListener("DOMContentLoaded", async function () {
             alert("No se pudo actualizar el usuario. Intente de nuevo.");
         }
     };
+
+    document.getElementById("userTable").addEventListener("click", async function (event) {
+        const button = event.target.closest(".delete-button");
+        if (button) {
+            const userId = button.dataset.id;
+            if (confirm("¿Estás seguro de que deseas eliminar este usuario?")) {
+                try {
+                    const response = await fetch(`/api/users/${userId}`, { method: "DELETE" });
+                    if (!response.ok) throw new Error("Error al eliminar el usuario");
+                    alert("Usuario eliminado exitosamente.");
+                    location.reload(); // Recargar la página para actualizar la tabla
+                } catch (error) {
+                    console.error("Error al eliminar usuario:", error);
+                    alert("No se pudo eliminar el usuario. Intente de nuevo.");
+                }
+            }
+        }
+    });
 });

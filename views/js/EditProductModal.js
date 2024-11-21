@@ -33,39 +33,113 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    async function updateInventoryTable() {
+        try {
+            const response = await fetch("/api/products");
+            if (!response.ok) {
+                throw new Error("Error al obtener los productos del servidor.");
+            }
+    
+            const products = await response.json();
+            const inventoryTable = document.getElementById("inventoryTable");
+            inventoryTable.innerHTML = ""; // Limpia la tabla existente
+    
+            products.forEach(product => {
+                const row = `
+                <tr>
+                    <td>${product.nombre}</td>
+                    <td>${product.precio}</td>
+                    <td>${product.categoria}</td>
+                    <td>${product.stock}</td>
+                    <td>${product.stock_minimo}</td>
+                    <td>${product.estado}</td>
+                    <td>${product.proveedor}</td>
+                    <td>${product.fecha_caducidad}</td>
+                    <td>
+                        <button 
+                            class="edit-button" 
+                            data-id="${product.id_producto}" 
+                            data-nombre="${product.nombre}" 
+                            data-codigo_barras="${product.codigo_barras}" 
+                            data-precio="${product.precio}" 
+                            data-id_categoria="${product.id_categoria}" 
+                            data-stock_minimo="${product.stock_minimo}" 
+                            data-id_proveedor="${product.id_proveedor}" 
+                            data-fecha_caducidad="${product.fecha_caducidad}">
+                             <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                </tr>
+            `;
+                inventoryTable.insertAdjacentHTML("beforeend", row);
+            });
+        } catch (error) {
+            console.error("Error actualizando la tabla de inventario:", error);
+            Toastify({
+                text: "Error al actualizar la tabla de inventario.",
+                duration: 3000,
+                close: true,
+                gravity: "Bottom",
+                position: "right",
+                backgroundColor: "#f44336",
+            }).showToast();
+        }
+    }
+
     closeEditModal.onclick = () => (editProductModal.style.display = "none");
 
     editProductForm.onsubmit = async function (event) {
         event.preventDefault();
-
+    
         const formData = new FormData(editProductForm);
         const data = {
             ...Object.fromEntries(formData.entries()),
             id_categoria: parseInt(document.getElementById("editProductCategory").value, 10),
             id_proveedor: parseInt(document.getElementById("editProductProvider").value, 10),
         };
-
+    
         // Elimina explícitamente el campo stock si está presente
         delete data.stock;
-
+    
         console.log("Datos enviados al servidor (sin stock):", data);
-
+    
         try {
             const response = await fetch(`/api/products/${data.id_producto}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
-
+    
             if (!response.ok) throw new Error("Error al actualizar el producto");
-
+    
             editProductModal.style.display = "none";
-            location.reload();
+    
+            Toastify({
+                text: "Se ha actualizado el producto exitosamente.",
+                duration: 3000,
+                close: true,
+                gravity: "bottom",
+                position: "right",
+                backgroundColor: "#4CAF50",
+            }).showToast();
+    
+            // Actualiza la tabla de inventario después de la edición exitosa
+            updateInventoryTable();
+    
         } catch (error) {
             console.error("Error al actualizar el producto:", error);
+            Toastify({
+                text: "Error al actualizar el producto.",
+                duration: 3000,
+                close: true,
+                gravity: "bottom",
+                position: "right",
+                backgroundColor: "#f44336", // Rojo para errores
+            }).showToast();
         }
-    };
+    };    
 });
+
 
 // Función para cargar las opciones en los select (categorías, proveedores, etc.)
 async function loadEditSelectOptions(productData) {
@@ -113,5 +187,16 @@ async function loadEditSelectOptions(productData) {
         });
     } catch (error) {
         console.error("Error al cargar opciones del selector:", error);
+        Toastify({
+            text: "Error al cargar  la tabla de inventario.",
+            duration: 3000,
+            close: true,
+            gravity: "Bottom",
+            position: "right",
+            backgroundColor: "#f44336",
+        }).showToast();
     }
+    
+    
+    
 }

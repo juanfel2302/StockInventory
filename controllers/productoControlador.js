@@ -5,15 +5,25 @@ const { Table } = require('pdfkit-table');
 
 exports.getAllProducts = async (req, res) => {
   try {
-    // Actualizar estados antes de devolver los productos
-    await Product.updateAllStates();
+      await Product.updateAllStates();
 
-    const products = await Product.getAll();
-    res.json(products);
+      const products = await Product.getAll();
+
+      // Formatear las fechas y otros campos antes de enviarlos al cliente
+      const formattedProducts = products.map(product => ({
+          ...product,
+          fecha_caducidad: product.fecha_caducidad
+              ? new Date(product.fecha_caducidad).toLocaleDateString() // Formatear fecha
+              : "Sin fecha",
+              precio: parseFloat(product.precio).toFixed(2), // Enviar solo el valor numérico como string
+            }));
+
+      res.json(formattedProducts);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch products' });
+      res.status(500).json({ error: 'Failed to fetch products' });
   }
 };
+
 
 exports.createProduct = async (req, res) => {
   try {
