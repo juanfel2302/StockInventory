@@ -76,3 +76,38 @@ document.addEventListener('DOMContentLoaded', async function () {
     console.error('Error al cargar los datos dinámicos del home:', error);
   }
 });
+
+document.addEventListener('DOMContentLoaded', async function () {
+  // Referencias al ícono de notificaciones
+  const notificationIcon = document.getElementById('notificationIcon');
+
+  // Función para verificar notificaciones no leídas
+  async function checkNotifications() {
+    try {
+      const response = await fetch('/api/notifications');
+      if (!response.ok) throw new Error('Error al obtener las notificaciones');
+
+      const notifications = await response.json();
+
+      // Verifica si hay notificaciones no leídas
+      const unreadNotifications = notifications.some(notification => !notification.leida);
+
+      // Cambia el color del ícono si hay no leídas
+      if (unreadNotifications) {
+        notificationIcon.classList.add('notification-alert');
+      } else {
+        notificationIcon.classList.remove('notification-alert');
+      }
+    } catch (error) {
+      console.error('Error verificando notificaciones:', error);
+    }
+  }
+
+  // Llama a la función para verificar las notificaciones
+  checkNotifications();
+
+  // Lógica para redirigir a la página de notificaciones al hacer clic
+  notificationIcon.addEventListener('click', function () {
+    window.location.href = '/notification.html';
+  });
+});

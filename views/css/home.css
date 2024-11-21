@@ -182,6 +182,11 @@ body {
   color: white;
 }
 
+.notification-alert {
+  color: #FFD700; /* Color dorado */
+  transition: color 0.3s ease; /* Suave transición al cambiar el color */
+}
+
 .modal {
   display: none;
   position: fixed;
