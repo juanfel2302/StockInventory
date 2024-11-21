@@ -10,6 +10,5 @@ router.get('/', isAuthenticated, isActiveUser, providerController.getAllProvider
 router.get('/:id', isAuthenticated, isActiveUser, providerController.getProviderById); // Obtener un proveedor por ID
 router.post('/', isAuthenticated, isActiveUser, providerController.createProvider); // Crear un nuevo proveedor
 router.put('/:id', isAuthenticated, isActiveUser, providerController.updateProvider); // Actualizar un proveedor por ID
-router.delete('/:id', isAuthenticated, isActiveUser, providerController.deleteProvider); // Eliminar un proveedor por ID
 
 module.exports = router;

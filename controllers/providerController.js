@@ -53,21 +53,6 @@ exports.updateProvider = async (req, res) => {
   }
 };
 
-// Eliminar un proveedor
-exports.deleteProvider = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const deleted = await Provider.delete(id);
-    if (deleted) {
-      res.json({ message: 'Proveedor eliminado correctamente' });
-    } else {
-      res.status(404).json({ error: 'Proveedor no encontrado' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'Error al eliminar el proveedor' });
-  }
-};
-
 exports.getAllActiveProviders = async (req, res) => {
   try {
     console.log('Fetching active providers...'); // Log para verificar

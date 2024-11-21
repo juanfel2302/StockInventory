@@ -340,3 +340,124 @@ table td {
 .export-button:hover {
   background-color: #164A41;
 }
+/* Estilos específicos para #addStockModal */
+#addStockModal {
+  display: none; /* Por defecto, el modal está oculto */
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
+}
+
+#addStockModal .modal-content {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px 30px;
+  margin: 5% auto; /* Centra el modal */
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.3s ease-in-out; /* Animación */
+  font-family: 'Inter', sans-serif;
+}
+
+#addStockModal h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #164A41;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #4CAF50;
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+#addStockModal label {
+  display: block;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #164A41;
+}
+
+#addStockModal input, 
+#addStockModal select {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #326148;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#addStockModal input:focus, 
+#addStockModal select:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+}
+
+#addStockModal button {
+  background-color: #4CAF50;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+#addStockModal button:hover {
+  background-color: #45a049;
+}
+
+/* Botón de cerrar */
+#addStockModal .close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#addStockModal .close:hover {
+  color: #f44336;
+}
+
+/* Animación de apertura del modal */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  #addStockModal .modal-content {
+    width: 95%;
+    padding: 15px 20px;
+  }
+
+  #addStockModal h2 {
+    font-size: 20px;
+  }
+
+  #addStockModal button {
+    font-size: 14px;
+  }
+}
+
