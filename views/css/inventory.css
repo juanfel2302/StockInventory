@@ -4,90 +4,106 @@ body {
   font-family: 'Inter', sans-serif;
   display: flex;
   position: relative;
-  background-color: #f4f4f9;
+  background-color: #f4f4f9; /* Fondo neutro */
+  margin: 0;
+}
+
+.home-container {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .home-container h2 {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700;
   color: #164A41;
+  margin-bottom: 10px;
+  border-bottom: 3px solid #4CAF50;
+  padding-bottom: 10px;
 }
 
-/* Estilos de los párrafos */
 .home-container p {
   font-size: 18px;
   color: #326148;
+  margin-bottom: 20px;
 }
 
 /* Contenedor de iconos */
 .icon-container {
-  position: absolute; /* Permite posicionar el contenedor de iconos */
-  top: 40px; /* Espacio desde la parte superior */
-  right: 40px; /* Espacio desde la derecha */
-  display: flex; /* Usar flexbox para los iconos */
-  gap: 15px; /* Espaciado entre los iconos */
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  display: flex;
+  gap: 20px;
 }
 
-/* Estilos para los iconos */
 .icon {
-  text-decoration: none; /* Sin subrayado */
-  color: #333; /* Color de los iconos */
-  font-size: 24px; /* Tamaño de los iconos */
-  transition: color 0.3s; /* Transición suave para el color */
+  text-decoration: none;
+  color: #333;
+  font-size: 28px;
+  transition: color 0.3s ease-in-out;
 }
 
 .icon:hover {
-  color: #ffcc00; /* Color al pasar el mouse */
+  color: #4CAF50; /* Verde más suave */
 }
 
+/* Estilos para el dropdown */
 .dropdown {
-  display: none; /* Oculta el menú por defecto */
-  position: absolute; /* Posiciona el menú relativo al contenedor del icono */
-  top: 40px; /* Ajusta la posición respecto al icono de usuario */
-  right: 0; /* Alinea el menú con el lado derecho */
-  background-color: white; /* Color de fondo del menú */
-  border: 1px solid #ccc; /* Borde del menú */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra del menú */
-  z-index: 1000; /* Asegura que el menú esté encima de otros elementos */
+  display: none;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilos para los elementos del menú desplegable */
 .dropdown-item {
-  display: block; /* Hace que los elementos ocupen todo el ancho */
-  padding: 10px 20px; /* Espaciado alrededor del texto */
-  text-decoration: none; /* Sin subrayado */
-  color: #333; /* Color del texto */
+  display: block;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .dropdown-item:hover {
-  background-color: #f0f0f0; /* Color de fondo al pasar el mouse */
+  background-color: #f4f7f6; /* Suave cambio de color */
 }
 
 .inventory-container {
   padding: 40px;
   width: 100%;
+  margin: 0px auto;
+  max-width: 1200px;
 }
 
 .inventory-container h2 {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700;
   color: #164A41;
   margin-bottom: 20px;
-  border-bottom: 2px solid #164A41;
+  border-bottom: 3px solid #4CAF50;
   padding-bottom: 10px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #fff;
+  margin: 20px 0;
+  background-color: #ffffff;
   border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 table th, table td {
-  padding: 12px;
+  padding: 12px 20px;
   text-align: left;
   border-bottom: 1px solid #e0e0e0;
 }
@@ -102,7 +118,7 @@ table td {
   color: #326148;
 }
 
-/* Estilos para el Modal */
+/* Modal */
 .modal {
   display: none;
   position: fixed;
@@ -116,48 +132,50 @@ table td {
 
 .modal-content {
   background-color: #ffffff;
-  padding: 20px;
+  padding: 30px;
   margin: 5% auto;
-  border-radius: 12px; 
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
-  width: 90%; 
-  max-width: 500px; 
-  min-width: 300px; 
-  max-height: 85vh; 
-  overflow-y: auto; 
-  position: relative; 
-  font-family: 'Inter', sans-serif; 
-  animation: fadeIn 0.3s ease-in-out; 
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  min-width: 300px;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  font-family: 'Inter', sans-serif;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 .form-container label {
   display: block;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 15px;
   color: #164A41;
 }
 
 .form-container input, .form-container select {
   width: 100%;
-  padding: 8px;
-  margin-top: 5px;
+  padding: 10px;
+  margin-top: 8px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px;
   box-sizing: border-box;
+  font-size: 16px;
 }
 
 .submit-button {
   background-color: #4CAF50;
   color: white;
-  padding: 10px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   width: 100%;
   font-size: 16px;
   font-weight: bold;
   box-sizing: border-box;
+  transition: background-color 0.3s ease;
 }
 
 .submit-button:hover {
@@ -172,8 +190,7 @@ table td {
   cursor: pointer;
 }
 
-.close-button:hover,
-.close-button:focus {
+.close-button:hover, .close-button:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
@@ -187,12 +204,13 @@ table td {
 .add-button {
   background-color: #4CAF50;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 25px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
 .add-button:hover {
@@ -204,43 +222,38 @@ table td {
   margin-bottom: 10px;
 }
 
-/* Estilo para el contenedor del formulario */
 #filterForm {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Espaciado entre campos */
+  gap: 15px;
 }
 
-/* Estilo básico para los labels */
 #filterForm label {
   font-size: 16px;
-  font-weight: 600; /* Negrita para destacar el texto */
-  color: #164A41; /* Color elegante */
-  margin-bottom: 5px; /* Espacio entre el label y el campo */
-  transition: color 0.3s ease; /* Suave transición de color */
+  font-weight: 600;
+  color: #164A41;
+  margin-bottom: 5px;
+  transition: color 0.3s ease;
 }
 
-/* Efecto al pasar el mouse por el label */
 #filterForm label:hover {
-  color: #326148; /* Cambia a un verde más claro */
+  color: #326148;
 }
 
-/* Estilo para los select */
 #filterForm select {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc; /* Borde sutil */
-  border-radius: 6px; /* Bordes redondeados */
-  background-color: #f9f9f9; /* Fondo claro */
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
   font-size: 14px;
-  color: #326148; /* Color del texto */
+  color: #326148;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Cambios al interactuar con el campo select */
 #filterForm select:focus {
-  border-color: #164A41; /* Verde oscuro */
-  box-shadow: 0 0 8px rgba(22, 74, 65, 0.3); /* Sombra ligera */
+  border-color: #164A41;
+  box-shadow: 0 0 8px rgba(22, 74, 65, 0.3);
 }
 
 .filter-button {
@@ -264,13 +277,15 @@ table td {
   background-color: #f4f4f9;
 }
 
+/* Media queries for smaller screens */
 @media (max-width: 768px) {
   .modal-content {
-    width: 95%; /* Ancho del 95% en pantallas pequeñas */
-    max-height: 80vh; /* Limita la altura máxima al 80% de la pantalla */
+    width: 95%;
+    max-height: 80vh;
   }
 }
-/* Styles for Register Exit Modal */
+
+/* Register Exit Modal */
 #registerExitModal .modal-content {
   width: 90%;
   max-width: 600px;
@@ -291,8 +306,8 @@ table td {
   color: white;
   border: none;
   cursor: pointer;
-  padding: 5px;
-  border-radius: 4px;
+  padding: 8px 12px;
+  border-radius: 6px;
 }
 
 .add-row-button:hover, .removeRowButton:hover {
@@ -307,9 +322,9 @@ table td {
 .export-button {
   background-color: #326148;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 25px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 16px;
   margin-left: 10px;
