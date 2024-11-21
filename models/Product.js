@@ -229,6 +229,35 @@ class Product {
             });
         });
     }
+    static searchForFilter(query) {
+        return new Promise((resolve, reject) => {
+            const sql = `
+                SELECT 
+                    p.id_producto, 
+                    p.nombre, 
+                    p.codigo_barras, 
+                    p.precio, 
+                    c.nombre_categoria AS categoria, 
+                    e.nombre_estado AS estado, 
+                    pr.nombre AS proveedor, 
+                    p.stock, 
+                    p.stock_minimo, 
+                    p.fecha_caducidad
+                FROM productos p
+                LEFT JOIN categorias c ON p.id_categoria = c.id_categoria
+                LEFT JOIN estados_producto e ON p.id_estado_producto = e.id_estado_producto
+                LEFT JOIN proveedores pr ON p.id_proveedor = pr.id_proveedor
+                WHERE p.nombre LIKE ?
+            `;
+    
+            const searchQuery = `%${query}%`;
+            connection.query(sql, [searchQuery], (err, results) => {
+                if (err) reject(err);
+                else resolve(results);
+            });
+        });
+    }
+    
     
 }
 

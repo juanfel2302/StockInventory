@@ -91,6 +91,23 @@ exports.searchProducts = async (req, res) => {
   }
 };
 
+exports.searchProductsForFilter = async (req, res) => {
+  try {
+      const query = req.query.q || ''; // Captura la consulta de búsqueda
+
+      if (!query) {
+          return res.status(400).json({ error: 'Debe proporcionar un término de búsqueda.' });
+      }
+
+      const products = await Product.searchForFilter(query);
+      res.json(products); // Devuelve los productos que coincidan con el texto
+  } catch (error) {
+      console.error('Error al buscar productos para filtro:', error);
+      res.status(500).json({ error: 'Error al buscar productos para el filtro.' });
+  }
+};
+
+
 
 exports.generatePDF = async (req, res) => {
   try {
